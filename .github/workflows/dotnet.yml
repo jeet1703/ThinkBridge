@@ -20,10 +20,10 @@ jobs:
         include-prerelease: true
 
     - name: Restore dependencies
-      run: dotnet restore OrderRefactor/Refactored/Refactored.csproj
+      run: dotnet restore ThinkSchool/Day1/piece4/OrderRefactor/Refactored/Refactored.csproj
 
     - name: Build
-      run: dotnet build OrderRefactor/Refactored/Refactored.csproj --no-restore
+      run: dotnet build ThinkSchool/Day1/piece4/OrderRefactor/Refactored/Refactored.csproj --no-restore
 
     - name: Test
-      run: dotnet test OrderRefactor/Refactored/Refactored.csproj --no-build --verbosity normal
+      run: dotnet test ThinkSchool/Day1/piece4/OrderRefactor/Refactored/Refactored.csproj --no-build --verbosity normal
