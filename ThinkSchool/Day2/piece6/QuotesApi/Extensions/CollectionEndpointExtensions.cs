@@ -18,7 +18,6 @@ public static class CollectionEndpointExtensions
     {
         var group = endpoints.MapGroup("/api/collections");
 
-        // Create Collection
         group.MapPost("/", async (
             CreateCollectionRequest request,
             ICollectionRepository repository,
@@ -66,7 +65,6 @@ public static class CollectionEndpointExtensions
             }
         });
 
-        // Add Quote to Collection
         group.MapPost("/{id:int}/items", async (
             int id,
             AddQuoteRequest request,
@@ -98,7 +96,6 @@ public static class CollectionEndpointExtensions
 
             try
             {
-                // Mutation strictly through aggregate root
                 collection.AddItem(request.QuoteId);
                 await repository.UpdateAsync(collection, cancellationToken);
                 return Results.Ok(collection);
@@ -114,7 +111,6 @@ public static class CollectionEndpointExtensions
             }
         });
 
-        // Remove Quote from Collection
         group.MapDelete("/{id:int}/items/{quoteId:int}", async (
             int id,
             int quoteId,
@@ -134,7 +130,6 @@ public static class CollectionEndpointExtensions
 
             try
             {
-                // Mutation strictly through aggregate root
                 collection.RemoveItem(quoteId);
                 await repository.UpdateAsync(collection, cancellationToken);
                 return Results.Ok(collection);

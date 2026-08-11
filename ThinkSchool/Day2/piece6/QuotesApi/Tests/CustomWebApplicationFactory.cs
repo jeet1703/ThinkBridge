@@ -13,7 +13,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.UseContentRoot(AppContext.BaseDirectory);
 
-        // Clean up test database from prior runs
         var dbPath = Path.Combine(AppContext.BaseDirectory, "quotes_test.db");
         if (File.Exists(dbPath))
         {
@@ -23,7 +22,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             }
             catch
             {
-                // Ignore lock errors or fallback to unique name
             }
         }
 

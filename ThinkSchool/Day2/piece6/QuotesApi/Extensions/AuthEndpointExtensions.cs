@@ -23,7 +23,6 @@ public static class AuthEndpointExtensions
     public static IEndpointRouteBuilder MapAuthEndpoints(
         this IEndpointRouteBuilder endpoints)
     {
-        // 1. POST /api/auth/login
         endpoints.MapPost("/api/auth/login", async (
             LoginRequest request,
             QuotesDbContext db,
@@ -40,7 +39,6 @@ public static class AuthEndpointExtensions
                 return Results.Unauthorized();
             }
 
-            // Access Token
             var jwtSettings = configuration.GetSection("Jwt");
             var keyBytes = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
             var key = new SymmetricSecurityKey(keyBytes);
@@ -64,7 +62,6 @@ public static class AuthEndpointExtensions
             var tokenHandler = new JwtSecurityTokenHandler();
             var accessTokenString = tokenHandler.WriteToken(token);
 
-            // Refresh Token Generation
             var rawRefreshToken = GenerateRefreshTokenString();
             var hashedRefreshToken = HashToken(rawRefreshToken);
 
@@ -84,7 +81,6 @@ public static class AuthEndpointExtensions
             ));
         });
 
-        // 2. POST /api/auth/refresh
         endpoints.MapPost("/api/auth/refresh", async (
             RefreshRequest request,
             QuotesDbContext db,
@@ -107,12 +103,10 @@ public static class AuthEndpointExtensions
                 return Results.Unauthorized();
             }
 
-            // Reuse Detection: token was already revoked or replaced
             if (refreshTokenRecord.ReplacedByToken != null || refreshTokenRecord.RevokedAt != null)
             {
                 logger.LogWarning("SECURITY ALERT: Reuse of refresh token detected for UserId {UserId}. Revoking all active tokens.", refreshTokenRecord.UserId);
 
-                // Revoke all active refresh tokens for the user's family
                 var activeUserTokens = await db.RefreshTokens
                     .Where(rt => rt.UserId == refreshTokenRecord.UserId && rt.RevokedAt == null && rt.ExpiresAt > DateTime.UtcNow)
                     .ToListAsync();
@@ -126,20 +120,17 @@ public static class AuthEndpointExtensions
                 return Results.Unauthorized();
             }
 
-            // Validate Expiration
             if (refreshTokenRecord.ExpiresAt <= DateTime.UtcNow)
             {
                 return Results.Unauthorized();
             }
 
-            // Lookup User
             var user = await db.Users.FindAsync(refreshTokenRecord.UserId);
             if (user == null)
             {
                 return Results.Unauthorized();
             }
 
-            // Access Token
             var jwtSettings = configuration.GetSection("Jwt");
             var keyBytes = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
             var key = new SymmetricSecurityKey(keyBytes);
@@ -162,15 +153,12 @@ public static class AuthEndpointExtensions
 
             var accessTokenString = new JwtSecurityTokenHandler().WriteToken(accessToken);
 
-            // Generate rotated Refresh Token
             var newRawRefreshToken = GenerateRefreshTokenString();
             var newHashedRefreshToken = HashToken(newRawRefreshToken);
 
-            // Mark old token as revoked and replaced
             refreshTokenRecord.RevokedAt = DateTime.UtcNow;
             refreshTokenRecord.ReplacedByToken = newHashedRefreshToken;
 
-            // Save new refresh token record
             var newRefreshTokenRecord = new RefreshToken
             {
                 Token = newHashedRefreshToken,
@@ -188,7 +176,6 @@ public static class AuthEndpointExtensions
             ));
         });
 
-        // 3. POST /api/auth/logout
         endpoints.MapPost("/api/auth/logout", async (
             LogoutRequest request,
             QuotesDbContext db) =>

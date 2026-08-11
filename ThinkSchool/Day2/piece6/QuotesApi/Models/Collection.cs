@@ -13,7 +13,7 @@ public class Collection
     private readonly List<CollectionItem> _items = new();
     public IReadOnlyCollection<CollectionItem> Items => _items.AsReadOnly();
 
-    private Collection() { } // EF Core Constructor
+    private Collection() { }
 
     public Collection(string name, string ownerId)
     {
