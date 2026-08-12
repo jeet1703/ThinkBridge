@@ -19,10 +19,10 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Day3/piece3/QuotesApi/QuotesApi.slnx
+      run: dotnet restore ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx
 
     - name: Build
-      run: dotnet build Day3/piece3/QuotesApi/QuotesApi.slnx --no-restore
+      run: dotnet build ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-restore
 
     - name: Run Tests (Unit + Integration with Testcontainers SQL Server)
-      run: dotnet test Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --verbosity normal
+      run: dotnet test ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --verbosity normal
