@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Data;
 using QuotesApi.Services;
-using Testcontainers.MsSql;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,27 +14,20 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace Quotes.Tests.Integration;
 
-public class IntegrationTestFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class IntegrationTestFactory : WebApplicationFactory<Program>
 {
-    private readonly MsSqlContainer _dbContainer = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
-        .Build();
-
+    private SqliteConnection? _connection;
     public FakeClock Clock { get; } = new();
-
-    Task IAsyncLifetime.InitializeAsync() => _dbContainer.StartAsync();
-
-    async Task IAsyncLifetime.DisposeAsync() => await _dbContainer.StopAsync();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
 
-        var connectionString = _dbContainer.GetConnectionString();
+        _connection = new SqliteConnection("DataSource=:memory:");
+        _connection.Open();
 
         builder.ConfigureServices(services =>
         {
@@ -47,7 +40,7 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>, IAsyncLife
 
             services.AddDbContext<QuotesDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseSqlite(_connection);
             });
 
             var clockDescriptor = services.SingleOrDefault(
@@ -64,17 +57,16 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>, IAsyncLife
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
-        db.Database.Migrate();
+        db.Database.EnsureCreated();
     }
 
     public void ClearDatabase()
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
-        db.RefreshTokens.ExecuteDelete();
-        db.Collections.ExecuteDelete();
-        db.Quotes.ExecuteDelete();
-        db.Users.ExecuteDelete();
+        db.Database.ExecuteSqlRaw("DELETE FROM Quotes");
+        db.Database.ExecuteSqlRaw("DELETE FROM Users");
+        db.Database.ExecuteSqlRaw("DELETE FROM RefreshTokens");
     }
 
     public HttpClient CreateAuthenticatedClient(string email, int userId, string? scope = "quotes.write")
@@ -111,5 +103,15 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>, IAsyncLife
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _connection?.Close();
+            _connection?.Dispose();
+        }
+        base.Dispose(disposing);
     }
 }
