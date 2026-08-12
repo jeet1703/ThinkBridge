@@ -61,7 +61,7 @@ public static class InfrastructureExtensions
                     if (handler.CanReadToken(tokenStr))
                     {
                         var jwt = handler.ReadJwtToken(tokenStr);
-                        if (jwt.Issuer != null && jwt.Issuer.Contains("login.microsoftonline.com", StringComparison.OrdinalIgnoreCase))
+                        if (jwt.Issuer != null && (jwt.Issuer.Contains("login.microsoftonline.com", StringComparison.OrdinalIgnoreCase) || jwt.Issuer.Contains("sts.windows.net", StringComparison.OrdinalIgnoreCase)))
                         {
                             return "EntraId";
                         }
