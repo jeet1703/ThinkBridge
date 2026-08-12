@@ -57,7 +57,7 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
-        db.Database.EnsureCreated();
+        db.Database.Migrate();
     }
 
     public void ClearDatabase()
