@@ -10,9 +10,14 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
+using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Quotes.Tests.Integration;
 
@@ -364,5 +369,155 @@ public class IntegrationTests : IClassFixture<IntegrationTestFactory>
         var client = _factory.CreateClient();
         var response = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest("", ""));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Refresh_MissingToken_ShouldReturnBadRequest()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.PostAsJsonAsync("/api/auth/refresh", new RefreshRequest(""));
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task AddCollectionItem_DuplicateQuote_ShouldReturnBadRequest()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+
+        // 1. Create collection
+        var colResponse = await client.PostAsJsonAsync("/api/collections", new CreateCollectionRequest("Collection One", "user-1"));
+        var colJson = await colResponse.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(colJson);
+        var collectionId = doc.RootElement.GetProperty("id").GetInt32();
+
+        // 2. Create quote
+        var qResponse = await client.PostAsJsonAsync("/api/quotes", new CreateQuoteRequest { Author = "Author", Text = "Quote text content" });
+        var quote = await qResponse.Content.ReadFromJsonAsync<Quote>();
+
+        // 3. Add to collection
+        var res1 = await client.PostAsJsonAsync($"/api/collections/{collectionId}/items", new AddQuoteRequest(quote!.Id));
+        res1.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        // 4. Add again
+        var res2 = await client.PostAsJsonAsync($"/api/collections/{collectionId}/items", new AddQuoteRequest(quote!.Id));
+        res2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task RemoveCollectionItem_NotFound_ShouldReturnBadRequest()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+
+        // Create collection
+        var colResponse = await client.PostAsJsonAsync("/api/collections", new CreateCollectionRequest("Collection One", "user-1"));
+        var colJson = await colResponse.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(colJson);
+        var collectionId = doc.RootElement.GetProperty("id").GetInt32();
+
+        var response = await client.DeleteAsync($"/api/collections/{collectionId}/items/9999");
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task GetQuoteById_ExistingId_ShouldReturnOk()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+
+        var qResponse = await client.PostAsJsonAsync("/api/quotes", new CreateQuoteRequest { Author = "Author", Text = "Quote text content" });
+        var quote = await qResponse.Content.ReadFromJsonAsync<Quote>();
+
+        var response = await client.GetAsync($"/api/quotes/{quote!.Id}");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task DeleteQuote_NonExistentId_ShouldReturnNotFound()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+
+        var response = await client.DeleteAsync("/api/quotes/9999");
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CallApi_MalformedToken_ShouldFallbackToLocalJwtAndReturnUnauthorized()
+    {
+        var client = _factory.CreateClient();
+        
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("different_secret_signing_key_that_is_at_least_32_bytes_long!"));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            issuer: "QuotesApiIssuer",
+            audience: "QuotesApiAudience",
+            claims: new[] { new Claim(ClaimTypes.Name, "test") },
+            expires: DateTime.UtcNow.AddMinutes(15),
+            signingCredentials: creds
+        );
+        var tokenStr = new JwtSecurityTokenHandler().WriteToken(token);
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenStr);
+        var response = await client.DeleteAsync("/api/quotes/1");
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task CallApi_EntraIdToken_ShouldReturnOk()
+    {
+        var user = await SeedUserAsync("entra-user@example.com", "Password123");
+        var client = _factory.CreateEntraClient(user.Email, user.Id);
+
+        var request = new CreateQuoteRequest { Author = "Entra Author", Text = "Entra Valid Quote Text" };
+        var response = await client.PostAsJsonAsync("/api/quotes", request);
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+    }
+
+    [Fact]
+    public async Task CallApi_EntraIdToken_WrongScope_ShouldReturnForbidden()
+    {
+        var user = await SeedUserAsync("entra-user@example.com", "Password123");
+        var client = _factory.CreateEntraClient(user.Email, user.Id, scope: "wrong.scope");
+
+        var request = new CreateQuoteRequest { Author = "Entra Author", Text = "Entra Valid Quote Text" };
+        var response = await client.PostAsJsonAsync("/api/quotes", request);
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task App_UnhandledException_ShouldReturnInternalServerError()
+    {
+        var client = _factory.CreateClient();
+        var user = await SeedUserAsync("admin@example.com", "AdminPassword123");
+
+        using (var scope = _factory.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
+            var tokenService = scope.ServiceProvider.GetRequiredService<RefreshTokenService>();
+            var hashed = tokenService.HashToken("some-valid-token-str");
+            db.RefreshTokens.Add(new RefreshToken
+            {
+                Token = hashed,
+                UserId = user.Id,
+                ExpiresAt = DateTime.UtcNow.AddDays(7)
+            });
+            await db.SaveChangesAsync();
+        }
+        
+        _factory.Clock.UtcNowFunc = () => throw new InvalidOperationException("Simulated clock exception");
+
+        try
+        {
+            var response = await client.PostAsJsonAsync("/api/auth/refresh", new RefreshRequest("some-valid-token-str"));
+            var body = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"[EXCEPTION_BODY]: {body}");
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+        finally
+        {
+            _factory.Clock.UtcNowFunc = null;
+        }
     }
 }

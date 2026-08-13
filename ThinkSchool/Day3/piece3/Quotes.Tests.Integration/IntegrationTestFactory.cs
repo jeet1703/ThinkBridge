@@ -13,6 +13,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Text;
 
 namespace Quotes.Tests.Integration;
@@ -50,6 +53,23 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>
                 services.Remove(clockDescriptor);
             }
             services.AddSingleton<IClock>(Clock);
+
+            services.PostConfigure<JwtBearerOptions>("EntraId", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = false,
+                    SignatureValidator = (token, parameters) => new Microsoft.IdentityModel.JsonWebTokens.JsonWebToken(token)
+                };
+                options.ConfigurationManager = new StaticConfigurationManager<OpenIdConnectConfiguration>(
+                    new OpenIdConnectConfiguration
+                    {
+                        Issuer = "https://login.microsoftonline.com/tenant-id/v2.0"
+                    });
+            });
         });
     }
 
@@ -67,6 +87,42 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>
         db.Database.ExecuteSqlRaw("DELETE FROM Quotes");
         db.Database.ExecuteSqlRaw("DELETE FROM Users");
         db.Database.ExecuteSqlRaw("DELETE FROM RefreshTokens");
+    }
+
+    public HttpClient CreateEntraClient(string email, int userId, string? scope = "quotes.write")
+    {
+        var client = CreateClient();
+        var token = GenerateEntraToken(email, userId, scope);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        return client;
+    }
+
+    private string GenerateEntraToken(string email, int userId, string? scope)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this_is_a_very_secret_signing_key_that_is_at_least_32_bytes_long_123!"));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var claims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        if (scope != null)
+        {
+            claims.Add(new Claim("scope", scope));
+        }
+
+        var token = new JwtSecurityToken(
+            issuer: "https://login.microsoftonline.com/tenant-id/v2.0",
+            audience: "QuotesApiAudience",
+            claims: claims,
+            expires: Clock.UtcNow.AddMinutes(15),
+            signingCredentials: creds
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     public HttpClient CreateAuthenticatedClient(string email, int userId, string? scope = "quotes.write")

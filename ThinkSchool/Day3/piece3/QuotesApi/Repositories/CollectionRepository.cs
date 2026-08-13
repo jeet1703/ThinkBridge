@@ -33,14 +33,4 @@ public class CollectionRepository : ICollectionRepository
     {
         await _context.SaveChangesAsync(cancellationToken);
     }
-
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
-    {
-        var collection = await GetByIdAsync(id, cancellationToken);
-        if (collection == null) return false;
-
-        _context.Collections.Remove(collection);
-        await _context.SaveChangesAsync(cancellationToken);
-        return true;
-    }
 }

@@ -48,21 +48,9 @@ public static class CollectionEndpointExtensions
                 return Results.ValidationProblem(errors);
             }
 
-            try
-            {
-                var collection = new Collection(request.Name, request.OwnerId);
-                var created = await repository.AddAsync(collection, cancellationToken);
-                return Results.Created($"/api/collections/{created.Id}", created);
-            }
-            catch (ArgumentException ex)
-            {
-                return Results.BadRequest(new ProblemDetails
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Title = "Invalid argument.",
-                    Detail = ex.Message
-                });
-            }
+            var collection = new Collection(request.Name, request.OwnerId);
+            var created = await repository.AddAsync(collection, cancellationToken);
+            return Results.Created($"/api/collections/{created.Id}", created);
         }).RequireAuthorization();
 
         group.MapPost("/{id:int}/items", async (
