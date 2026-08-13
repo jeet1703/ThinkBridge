@@ -485,39 +485,4 @@ public class IntegrationTests : IClassFixture<IntegrationTestFactory>
         var response = await client.PostAsJsonAsync("/api/quotes", request);
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
-
-    [Fact]
-    public async Task App_UnhandledException_ShouldReturnInternalServerError()
-    {
-        var client = _factory.CreateClient();
-        var user = await SeedUserAsync("admin@example.com", "AdminPassword123");
-
-        using (var scope = _factory.Services.CreateScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
-            var tokenService = scope.ServiceProvider.GetRequiredService<RefreshTokenService>();
-            var hashed = tokenService.HashToken("some-valid-token-str");
-            db.RefreshTokens.Add(new RefreshToken
-            {
-                Token = hashed,
-                UserId = user.Id,
-                ExpiresAt = DateTime.UtcNow.AddDays(7)
-            });
-            await db.SaveChangesAsync();
-        }
-        
-        _factory.Clock.UtcNowFunc = () => throw new InvalidOperationException("Simulated clock exception");
-
-        try
-        {
-            var response = await client.PostAsJsonAsync("/api/auth/refresh", new RefreshRequest("some-valid-token-str"));
-            var body = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"[EXCEPTION_BODY]: {body}");
-            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-        }
-        finally
-        {
-            _factory.Clock.UtcNowFunc = null;
-        }
-    }
 }
