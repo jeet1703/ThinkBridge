@@ -24,7 +24,7 @@ jobs:
       run: dotnet build ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-restore
 
     - name: Run Tests
-      run: dotnet test ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+      run: dotnet test ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]*.Migrations.*"
 
     - name: Upload Test Results
       if: always()
@@ -41,38 +41,59 @@ jobs:
         path: "**/coverage.cobertura.xml"
 
     - name: Check Code Coverage Threshold
+      shell: pwsh
       run: |
-        python3 -c "
-        import xml.etree.ElementTree as ET
-        import glob
-        import sys
+        $files = Get-ChildItem -Recurse -Filter coverage.cobertura.xml
+        if ($files.Count -eq 0) {
+            Write-Error "No coverage files found."
+            exit 1
+        }
         
-        files = glob.glob('**/coverage.cobertura.xml', recursive=True)
-        if not files:
-            print('No coverage files found.')
-            sys.exit(1)
-            
-        total_lines = 0
-        covered_lines = 0
+        $lines = @{}
+        foreach ($file in $files) {
+            Write-Host "Parsing coverage file: $($file.FullName)"
+            [xml]$xml = Get-Content $file.FullName
+            $classes = $xml.SelectNodes("//class")
+            foreach ($class in $classes) {
+                $className = $class.name
+                if ($className -like "*Migrations*") { continue }
+                if (-not $lines.Contains($className)) {
+                    $lines[$className] = @{}
+                }
+                foreach ($line in $class.SelectNodes(".//line")) {
+                    $num = [int]$line.number
+                    $hits = [int]$line.hits
+                    $prevHits = if ($lines[$className].Contains($num)) { $lines[$className][$num] } else { 0 }
+                    $lines[$className][$num] = [Math]::Max($prevHits, $hits)
+                }
+            }
+        }
         
-        for f in files:
-            print(f'Parsing coverage file: {f}')
-            tree = ET.parse(f)
-            root = tree.getroot()
-            total_lines += int(root.attrib.get('lines-valid', 0))
-            covered_lines += int(root.attrib.get('lines-covered', 0))
-            
-        if total_lines == 0:
-            print('No valid lines found in coverage.')
-            sys.exit(1)
-            
-        coverage = (covered_lines / total_lines) * 100
-        print(f'Total Valid Lines: {total_lines}, Covered: {covered_lines}')
-        print(f'Combined Code Coverage: {coverage:.2f}%')
+        $totalLines = 0
+        $coveredLines = 0
+        foreach ($className in $lines.Keys) {
+            foreach ($num in $lines[$className].Keys) {
+                $totalLines++
+                if ($lines[$className][$num] -gt 0) {
+                    $coveredLines++
+                }
+            }
+        }
         
-        if coverage < 70.0:
-            print('Code coverage is below the 70% threshold!')
-            sys.exit(1)
-        else:
-            print('Code coverage threshold check passed.')
-        "
+        if ($totalLines -eq 0) {
+            Write-Error "No valid lines found in code coverage."
+            exit 1
+        }
+        
+        $coverage = ($coveredLines / $totalLines) * 100
+        $rounded = [Math]::Round($coverage, 2)
+        Write-Host "Total Valid Lines: $totalLines"
+        Write-Host "Total Covered Lines: $coveredLines"
+        Write-Host "Combined Code Coverage: $rounded%"
+        
+        if ($coverage -lt 70.0) {
+            Write-Error "Code coverage is $rounded%, which is below the 70% threshold."
+            exit 1
+        } else {
+            Write-Host "Code coverage threshold check passed."
+        }

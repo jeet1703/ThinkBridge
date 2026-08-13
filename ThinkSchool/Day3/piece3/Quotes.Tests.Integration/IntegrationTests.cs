@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -203,10 +204,21 @@ public class IntegrationTests : IClassFixture<IntegrationTestFactory>
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
+    private async Task<User> SeedUserAsync(string email, string password)
+    {
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
+        var user = new User { Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword(password) };
+        db.Users.Add(user);
+        await db.SaveChangesAsync();
+        return user;
+    }
+
     [Fact]
     public async Task PostCollection_ValidName_ShouldReturnCreated()
     {
-        var client = _factory.CreateAuthenticatedClient("user@example.com", 1);
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
         var request = new CreateCollectionRequest("My Favorite Quotes Collection", "user-123");
 
         var response = await client.PostAsJsonAsync("/api/collections", request);
@@ -215,5 +227,142 @@ public class IntegrationTests : IClassFixture<IntegrationTestFactory>
         var created = await response.Content.ReadFromJsonAsync<Collection>();
         created.Should().NotBeNull();
         created!.Name.Should().Be("My Favorite Quotes Collection");
+    }
+
+    [Fact]
+    public async Task PostCollection_InvalidName_ShouldReturnBadRequest()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+        var request = new CreateCollectionRequest("ab", "user-123");
+
+        var response = await client.PostAsJsonAsync("/api/collections", request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task PostCollection_MissingOwnerId_ShouldReturnBadRequest()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+        var request = new CreateCollectionRequest("Valid Name", "");
+
+        var response = await client.PostAsJsonAsync("/api/collections", request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task AddCollectionItem_ValidRequest_ShouldReturnOk()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+        
+        // 1. Create collection
+        var colResponse = await client.PostAsJsonAsync("/api/collections", new CreateCollectionRequest("Collection One", "user-1"));
+        colResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        
+        var colJson = await colResponse.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(colJson);
+        var collectionId = doc.RootElement.GetProperty("id").GetInt32();
+
+        // 2. Create quote
+        var qResponse = await client.PostAsJsonAsync("/api/quotes", new CreateQuoteRequest { Author = "Author", Text = "Quote text content" });
+        qResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var quote = await qResponse.Content.ReadFromJsonAsync<Quote>();
+
+        // 3. Add to collection
+        var response = await client.PostAsJsonAsync($"/api/collections/{collectionId}/items", new AddQuoteRequest(quote!.Id));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task AddCollectionItem_CollectionNotFound_ShouldReturnNotFound()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+        var response = await client.PostAsJsonAsync("/api/collections/9999/items", new AddQuoteRequest(1));
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task AddCollectionItem_QuoteNotFound_ShouldReturnNotFound()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+        
+        // Create collection
+        var colResponse = await client.PostAsJsonAsync("/api/collections", new CreateCollectionRequest("Collection One", "user-1"));
+        var colJson = await colResponse.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(colJson);
+        var collectionId = doc.RootElement.GetProperty("id").GetInt32();
+
+        var response = await client.PostAsJsonAsync($"/api/collections/{collectionId}/items", new AddQuoteRequest(9999));
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task RemoveCollectionItem_ValidRequest_ShouldReturnOk()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+
+        // 1. Create collection
+        var colResponse = await client.PostAsJsonAsync("/api/collections", new CreateCollectionRequest("Collection One", "user-1"));
+        var colJson = await colResponse.Content.ReadAsStringAsync();
+        using var doc = JsonDocument.Parse(colJson);
+        var collectionId = doc.RootElement.GetProperty("id").GetInt32();
+
+        // 2. Create quote
+        var qResponse = await client.PostAsJsonAsync("/api/quotes", new CreateQuoteRequest { Author = "Author", Text = "Quote text content" });
+        var quote = await qResponse.Content.ReadFromJsonAsync<Quote>();
+
+        // 3. Add to collection
+        await client.PostAsJsonAsync($"/api/collections/{collectionId}/items", new AddQuoteRequest(quote!.Id));
+
+        // 4. Remove from collection
+        var response = await client.DeleteAsync($"/api/collections/{collectionId}/items/{quote.Id}");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task RemoveCollectionItem_CollectionNotFound_ShouldReturnNotFound()
+    {
+        var user = await SeedUserAsync("user@example.com", "Password123");
+        var client = _factory.CreateAuthenticatedClient(user.Email, user.Id);
+        var response = await client.DeleteAsync("/api/collections/9999/items/1");
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Logout_ValidToken_ShouldReturnNoContent()
+    {
+        var client = _factory.CreateClient();
+        var user = await SeedUserAsync("admin@example.com", "AdminPassword123");
+        
+        // Login first
+        var loginResponse = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest(user.Email, "AdminPassword123"));
+        loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var tokens = await loginResponse.Content.ReadFromJsonAsync<LoginResponse>();
+
+        var response = await client.PostAsJsonAsync("/api/auth/logout", new LogoutRequest(tokens!.Refresh_Token));
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task Logout_MissingToken_ShouldReturnBadRequest()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.PostAsJsonAsync("/api/auth/logout", new LogoutRequest(""));
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Login_MissingCredentials_ShouldReturnBadRequest()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.PostAsJsonAsync("/api/auth/login", new LoginRequest("", ""));
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }
