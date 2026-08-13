@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Data;
 using QuotesApi.DTOs;
 using QuotesApi.Models;
+using QuotesApi.Options;
 using QuotesApi.Services;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,7 +28,7 @@ public static class AuthEndpointExtensions
         endpoints.MapPost("/api/auth/login", async (
             LoginRequest request,
             QuotesDbContext db,
-            IConfiguration configuration) =>
+            IOptionsSnapshot<JwtOptions> jwtOptions) =>
         {
             if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
             {
@@ -40,8 +41,8 @@ public static class AuthEndpointExtensions
                 return Results.Unauthorized();
             }
 
-            var jwtSettings = configuration.GetSection("Jwt");
-            var keyBytes = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+            var options = jwtOptions.Value;
+            var keyBytes = Encoding.UTF8.GetBytes(options.SigningKey);
             var key = new SymmetricSecurityKey(keyBytes);
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -54,10 +55,10 @@ public static class AuthEndpointExtensions
             };
 
             var token = new JwtSecurityToken(
-                issuer: jwtSettings["Issuer"],
-                audience: jwtSettings["Audience"],
+                issuer: options.Issuer,
+                audience: options.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: DateTime.UtcNow.Add(options.AccessTokenLifetime),
                 signingCredentials: creds
             );
 
@@ -71,7 +72,7 @@ public static class AuthEndpointExtensions
             {
                 Token = hashedRefreshToken,
                 UserId = user.Id,
-                ExpiresAt = DateTime.UtcNow.AddDays(7)
+                ExpiresAt = DateTime.UtcNow.Add(options.RefreshTokenLifetime)
             };
             db.RefreshTokens.Add(refreshTokenRecord);
             await db.SaveChangesAsync();
@@ -79,13 +80,13 @@ public static class AuthEndpointExtensions
             return Results.Ok(new LoginResponse(
                 accessTokenString,
                 rawRefreshToken,
-                900
+                (int)options.AccessTokenLifetime.TotalSeconds
             ));
         });
 
         endpoints.MapPost("/api/auth/refresh", async (
             RefreshRequest request,
-            IConfiguration configuration,
+            IOptionsSnapshot<JwtOptions> jwtOptions,
             RefreshTokenService refreshTokenService) =>
         {
             if (string.IsNullOrWhiteSpace(request.RefreshToken))
@@ -103,8 +104,8 @@ public static class AuthEndpointExtensions
                 return Results.Unauthorized();
             }
 
-            var jwtSettings = configuration.GetSection("Jwt");
-            var keyBytes = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+            var options = jwtOptions.Value;
+            var keyBytes = Encoding.UTF8.GetBytes(options.SigningKey);
             var key = new SymmetricSecurityKey(keyBytes);
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -117,10 +118,10 @@ public static class AuthEndpointExtensions
             };
 
             var accessToken = new JwtSecurityToken(
-                issuer: jwtSettings["Issuer"],
-                audience: jwtSettings["Audience"],
+                issuer: options.Issuer,
+                audience: options.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: DateTime.UtcNow.Add(options.AccessTokenLifetime),
                 signingCredentials: creds
             );
 
@@ -129,7 +130,7 @@ public static class AuthEndpointExtensions
             return Results.Ok(new LoginResponse(
                 accessTokenString,
                 newRawRefreshToken,
-                900
+                (int)options.AccessTokenLifetime.TotalSeconds
             ));
         });
 

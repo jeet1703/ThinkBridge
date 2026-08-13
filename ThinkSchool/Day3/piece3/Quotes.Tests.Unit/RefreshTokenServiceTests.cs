@@ -1,9 +1,11 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using QuotesApi.Data;
 using QuotesApi.Models;
+using QuotesApi.Options;
 using QuotesApi.Services;
 using System;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ public class RefreshTokenServiceTests : IDisposable
     private readonly QuotesDbContext _db;
     private readonly IClock _clock = Substitute.For<IClock>();
     private readonly ILogger<RefreshTokenService> _logger = Substitute.For<ILogger<RefreshTokenService>>();
+    private readonly IOptionsSnapshot<JwtOptions> _jwtOptions = Substitute.For<IOptionsSnapshot<JwtOptions>>();
     private readonly RefreshTokenService _sut;
     private readonly DateTime _now = new(2026, 8, 12, 12, 0, 0, DateTimeKind.Utc);
 
@@ -26,7 +29,8 @@ public class RefreshTokenServiceTests : IDisposable
             .Options;
         _db = new QuotesDbContext(options);
         _clock.UtcNow.Returns(_now);
-        _sut = new RefreshTokenService(_db, _clock, _logger);
+        _jwtOptions.Value.Returns(new JwtOptions());
+        _sut = new RefreshTokenService(_db, _clock, _logger, _jwtOptions);
     }
 
     [Theory]

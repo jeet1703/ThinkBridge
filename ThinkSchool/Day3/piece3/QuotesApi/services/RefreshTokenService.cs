@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using QuotesApi.Data;
 using QuotesApi.Models;
+using QuotesApi.Options;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -15,12 +17,14 @@ public class RefreshTokenService
     private readonly QuotesDbContext _db;
     private readonly IClock _clock;
     private readonly ILogger<RefreshTokenService> _logger;
+    private readonly IOptionsSnapshot<JwtOptions> _jwtOptions;
 
-    public RefreshTokenService(QuotesDbContext db, IClock clock, ILogger<RefreshTokenService> logger)
+    public RefreshTokenService(QuotesDbContext db, IClock clock, ILogger<RefreshTokenService> logger, IOptionsSnapshot<JwtOptions> jwtOptions)
     {
         _db = db;
         _clock = clock;
         _logger = logger;
+        _jwtOptions = jwtOptions;
     }
 
     public async Task<(bool Success, string? Error, User? User)> RefreshTokenAsync(string rawRefreshToken, string newHashedRefreshToken)
@@ -77,7 +81,7 @@ public class RefreshTokenService
         {
             Token = newHashedRefreshToken,
             UserId = user.Id,
-            ExpiresAt = _clock.UtcNow.AddDays(7)
+            ExpiresAt = _clock.UtcNow.Add(_jwtOptions.Value.RefreshTokenLifetime)
         };
         _db.RefreshTokens.Add(newRefreshTokenRecord);
         await _db.SaveChangesAsync();

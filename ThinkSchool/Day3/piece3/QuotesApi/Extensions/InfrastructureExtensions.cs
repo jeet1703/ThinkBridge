@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Authorization;
 using QuotesApi.Data;
 using QuotesApi.Models;
+using QuotesApi.Options;
 using QuotesApi.Repositories;
 using QuotesApi.Services;
 using QuotesApi.Validators;
@@ -36,8 +37,10 @@ public static class InfrastructureExtensions
         services.AddScoped<CreateQuoteRequestValidator>();
         services.AddScoped<RefreshTokenService>();
 
-        var jwtSettings = configuration.GetSection("Jwt");
-        var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+
+        var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();
+        var key = Encoding.UTF8.GetBytes(jwtOptions.SigningKey);
 
         services.AddAuthentication(options =>
         {
@@ -83,8 +86,8 @@ public static class InfrastructureExtensions
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings["Issuer"],
-                ValidAudience = jwtSettings["Audience"],
+                ValidIssuer = jwtOptions.Issuer,
+                ValidAudience = jwtOptions.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ClockSkew = TimeSpan.Zero
             };
