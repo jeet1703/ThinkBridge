@@ -2,7 +2,6 @@ name: CI
 
 on:
   push:
-    branches: [ main, day-3-piece-3 ]
   pull_request:
     branches: [ main ]
 
@@ -24,5 +23,56 @@ jobs:
     - name: Build
       run: dotnet build ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-restore
 
-    - name: Run Tests (Unit + Integration with Testcontainers SQL Server)
-      run: dotnet test ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --verbosity normal
+    - name: Run Tests
+      run: dotnet test ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: "**/test-results.trx"
+
+    - name: Upload Coverage Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage
+        path: "**/coverage.cobertura.xml"
+
+    - name: Check Code Coverage Threshold
+      run: |
+        python3 -c "
+        import xml.etree.ElementTree as ET
+        import glob
+        import sys
+        
+        files = glob.glob('**/coverage.cobertura.xml', recursive=True)
+        if not files:
+            print('No coverage files found.')
+            sys.exit(1)
+            
+        total_lines = 0
+        covered_lines = 0
+        
+        for f in files:
+            print(f'Parsing coverage file: {f}')
+            tree = ET.parse(f)
+            root = tree.getroot()
+            total_lines += int(root.attrib.get('lines-valid', 0))
+            covered_lines += int(root.attrib.get('lines-covered', 0))
+            
+        if total_lines == 0:
+            print('No valid lines found in coverage.')
+            sys.exit(1)
+            
+        coverage = (covered_lines / total_lines) * 100
+        print(f'Total Valid Lines: {total_lines}, Covered: {covered_lines}')
+        print(f'Combined Code Coverage: {coverage:.2f}%')
+        
+        if coverage < 70.0:
+            print('Code coverage is below the 70% threshold!')
+            sys.exit(1)
+        else:
+            print('Code coverage threshold check passed.')
+        "
