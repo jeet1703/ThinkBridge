@@ -4,6 +4,7 @@ using QuotesApi.DTOs;
 using QuotesApi.Models;
 using QuotesApi.Repositories;
 using QuotesApi.Services;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -11,6 +12,8 @@ namespace QuotesApi.Extensions;
 
 public static class QuoteEndpointExtensions
 {
+    private static readonly ActivitySource ActivitySource = new("QuotesApi");
+
     public static IEndpointRouteBuilder MapQuoteEndpoints(
         this IEndpointRouteBuilder endpoints)
     {
@@ -40,6 +43,10 @@ public static class QuoteEndpointExtensions
                 "Fetching quotes page {Page} with size {Size}",
                 page,
                 size);
+
+            using var activity = ActivitySource.StartActivity("quotes.list");
+            activity?.SetTag("quotes.page", page);
+            activity?.SetTag("quotes.size", size);
 
             var result = await repository.GetPagedAsync(
                 page,

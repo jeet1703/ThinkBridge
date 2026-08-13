@@ -1,3 +1,5 @@
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using QuotesApi.Extensions;
 using QuotesApi.Middleware;
 using Serilog;
@@ -12,6 +14,15 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 builder.Services.AddProblemDetails();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService("QuotesApi"))
+    .WithTracing(t => t
+        .AddSource("QuotesApi")
+        .AddAspNetCoreInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddOtlpExporter());
 
 var app = builder.Build();
 
