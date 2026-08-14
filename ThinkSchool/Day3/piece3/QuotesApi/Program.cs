@@ -58,4 +58,5 @@ app.MapGet("/health", () => Results.Ok(new { Status = "Healthy" }));
 
 app.Run();
 
+// Force redeployment trigger
 public partial class Program { }
