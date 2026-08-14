@@ -14,6 +14,11 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Http.Resilience;
+using Polly;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace QuotesApi.Extensions;
 
@@ -106,6 +111,63 @@ public static class InfrastructureExtensions
                 ValidAudience = entraSettings["Audience"]
             };
         });
+
+        services.AddHttpClient("EntraIdBackchannel")
+            .AddResilienceHandler("default", (builder, context) =>
+            {
+                var logger = context.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("EntraIdBackchannelResilience");
+
+                builder.AddRetry(new HttpRetryStrategyOptions
+                {
+                    MaxRetryAttempts = 3,
+                    BackoffType = DelayBackoffType.Exponential,
+                    UseJitter = true,
+                    Delay = TimeSpan.FromSeconds(1),
+                    OnRetry = args =>
+                    {
+                        logger.LogWarning("Retry attempt {AttemptNumber} of {MaxAttempts} due to: {Error}", 
+                            args.AttemptNumber + 1, 
+                            3,
+                            args.Outcome.Exception?.Message ?? $"HTTP {args.Outcome.Result?.StatusCode}");
+                        return ValueTask.CompletedTask;
+                    }
+                });
+
+                builder.AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions
+                {
+                    FailureRatio = 0.5,
+                    SamplingDuration = TimeSpan.FromSeconds(30),
+                    MinimumThroughput = 5,
+                    BreakDuration = TimeSpan.FromSeconds(5)
+                });
+
+                builder.AddTimeout(new HttpTimeoutStrategyOptions
+                {
+                    Timeout = TimeSpan.FromSeconds(10)
+                });
+            });
+
+        services.AddOptions<JwtBearerOptions>("EntraId")
+            .Configure<IHttpClientFactory>((options, factory) =>
+            {
+                var httpClient = factory.CreateClient("EntraIdBackchannel");
+                
+                var metadataAddress = options.MetadataAddress ?? options.Authority;
+                if (metadataAddress != null)
+                {
+                    if (!metadataAddress.EndsWith("/", StringComparison.Ordinal))
+                    {
+                        metadataAddress += "/";
+                    }
+                    metadataAddress += ".well-known/openid-configuration";
+
+                    options.ConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
+                        metadataAddress,
+                        new OpenIdConnectConfigurationRetriever(),
+                        new HttpDocumentRetriever(httpClient) { RequireHttps = options.RequireHttpsMetadata }
+                    );
+                }
+            });
 
         services.AddAuthorization(options =>
         {
