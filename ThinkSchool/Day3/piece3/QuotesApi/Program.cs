@@ -54,6 +54,7 @@ await app.ApplyMigrationsAsync();
 app.MapQuoteEndpoints();
 app.MapCollectionEndpoints();
 app.MapAuthEndpoints();
+app.MapGet("/health", () => Results.Ok(new { Status = "Healthy" }));
 
 app.Run();
 

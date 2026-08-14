@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>869d40bc-9d7a-493a-829f-b2e785f8e040</UserSecretsId>
+    <ContainerImageName>quotes-api</ContainerImageName>
+    <ContainerImageTag>0.1.0</ContainerImageTag>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0</ContainerBaseImage>
   </PropertyGroup>
 
   <ItemGroup>
