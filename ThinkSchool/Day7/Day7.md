@@ -11,8 +11,7 @@ SELECT
     stats.QuoteCount,
     q.Text AS MostRecentQuote
 FROM AuthorStats stats
-JOIN Quotes q ON q.Id = stats.MostRecentQuoteId
-LIMIT 10;
+JOIN Quotes q ON q.Id = stats.MostRecentQuoteId;
 
 -- Results:
 Author           QuoteCount  MostRecentQuote
