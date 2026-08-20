@@ -29,12 +29,10 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
 
-        // Seed one quote
         var quote = Quote.Create("Ada Lovelace", "This is a quote to test identity resolution.");
         context.Quotes.Add(quote);
         context.SaveChanges();
 
-        // 1. With Tracking (default)
         var q1 = context.Quotes.First(q => q.Id == quote.Id);
         var q2 = context.Quotes.First(q => q.Id == quote.Id);
 
@@ -43,9 +41,8 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         _output.WriteLine($"q2 HashCode: {q2.GetHashCode()}");
         _output.WriteLine($"Are references equal? {object.ReferenceEquals(q1, q2)}");
         
-        Assert.Same(q1, q2); // Resolves to the same in-memory object instance!
+        Assert.Same(q1, q2);
 
-        // 2. With AsNoTracking()
         using var scope2 = _factory.Services.CreateScope();
         var context2 = scope2.ServiceProvider.GetRequiredService<QuotesDbContext>();
         
@@ -57,7 +54,7 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         _output.WriteLine($"q4 HashCode: {q4.GetHashCode()}");
         _output.WriteLine($"Are references equal? {object.ReferenceEquals(q3, q4)}");
 
-        Assert.NotSame(q3, q4); // Two distinct instances created!
+        Assert.NotSame(q3, q4);
     }
 
     [Fact]
@@ -66,17 +63,14 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
 
-        // Seed one quote
         var quote = Quote.Create("Alan Turing", "This is a quote to test tracking modifications.");
         context.Quotes.Add(quote);
         context.SaveChanges();
 
-        // 1. Tracked Modification
         var qTracked = context.Quotes.First(q => q.Id == quote.Id);
         qTracked.Author = "Alan T.";
         context.SaveChanges();
 
-        // Verify update persisted
         using (var verifyScope = _factory.Services.CreateScope())
         {
             var verifyDb = verifyScope.ServiceProvider.GetRequiredService<QuotesDbContext>();
@@ -85,7 +79,6 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
             Assert.Equal("Alan T.", savedQuote.Author);
         }
 
-        // 2. Untracked Modification (AsNoTracking)
         using var scope2 = _factory.Services.CreateScope();
         var context2 = scope2.ServiceProvider.GetRequiredService<QuotesDbContext>();
 
@@ -93,13 +86,12 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         qUntracked.Author = "Turing Alan";
         context2.SaveChanges();
 
-        // Verify update NOT persisted
         using (var verifyScope = _factory.Services.CreateScope())
         {
             var verifyDb = verifyScope.ServiceProvider.GetRequiredService<QuotesDbContext>();
             var savedQuote = verifyDb.Quotes.First(q => q.Id == quote.Id);
             _output.WriteLine($"Untracked update author is still: '{savedQuote.Author}'");
-            Assert.Equal("Alan T.", savedQuote.Author); // Unchanged!
+            Assert.Equal("Alan T.", savedQuote.Author);
         }
     }
 
@@ -109,26 +101,21 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         using var scope = _factory.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
 
-        // Seed 10,000 quotes
         _output.WriteLine("Seeding 10,000 quotes in database... (Please wait)");
         var quotes = Enumerable.Range(1, 10000).Select(i => 
             Quote.Create("Author_" + (i % 100), $"This is quote text number {i} to benchmark change tracker performance.")
         ).ToList();
 
-        // Bulk insert
         context.Quotes.AddRange(quotes);
         context.SaveChanges();
         _output.WriteLine("Seeding complete.");
 
-        // Clear tracking context entirely before benchmarking
         context.ChangeTracker.Clear();
 
-        // Force GC garbage collection to clean up memory before starting
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
 
-        // --- BENCHMARK 1: Tracked Query ---
         long startAllocatedTracked = GC.GetAllocatedBytesForCurrentThread();
         var sw = Stopwatch.StartNew();
         var trackedList = context.Quotes.ToList();
@@ -138,15 +125,12 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         long timeTrackedMs = sw.ElapsedMilliseconds;
         long bytesAllocatedTracked = endAllocatedTracked - startAllocatedTracked;
 
-        // Clear tracking context entirely before benchmarking AsNoTracking
         context.ChangeTracker.Clear();
 
-        // Force GC garbage collection
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
 
-        // --- BENCHMARK 2: AsNoTracking Query ---
         long startAllocatedNoTrack = GC.GetAllocatedBytesForCurrentThread();
         sw = Stopwatch.StartNew();
         var noTrackingList = context.Quotes.AsNoTracking().ToList();
@@ -156,7 +140,6 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         long timeNoTrackMs = sw.ElapsedMilliseconds;
         long bytesAllocatedNoTrack = endAllocatedNoTrack - startAllocatedNoTrack;
 
-        // Print results
         double timeRatio = (double)timeTrackedMs / (timeNoTrackMs > 0 ? timeNoTrackMs : 1);
         double allocRatio = (double)bytesAllocatedTracked / (bytesAllocatedNoTrack > 0 ? bytesAllocatedNoTrack : 1);
 
