@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Data;
 using QuotesApi.Services;
@@ -29,6 +30,18 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>
     {
         builder.UseEnvironment("Development");
 
+        builder.ConfigureAppConfiguration((context, configBuilder) =>
+        {
+            configBuilder.AddInMemoryCollection(new System.Collections.Generic.Dictionary<string, string?>
+            {
+                { "Serilog:MinimumLevel:Override:Microsoft.EntityFrameworkCore.Database.Command", "Warning" }
+            });
+        });
+
+        Serilog.Log.Logger = new Serilog.LoggerConfiguration()
+            .MinimumLevel.Warning()
+            .CreateLogger();
+
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.Open();
 
@@ -43,7 +56,8 @@ public class IntegrationTestFactory : WebApplicationFactory<Program>
 
             services.AddDbContext<QuotesDbContext>(options =>
             {
-                options.UseSqlite(_connection);
+                options.UseSqlite(_connection)
+                       .LogTo(_ => {}, Microsoft.Extensions.Logging.LogLevel.Warning);
             });
 
             var clockDescriptor = services.SingleOrDefault(
