@@ -140,16 +140,8 @@ public class ChangeTrackerTests : IClassFixture<IntegrationTestFactory>
         long timeNoTrackMs = sw.ElapsedMilliseconds;
         long bytesAllocatedNoTrack = endAllocatedNoTrack - startAllocatedNoTrack;
 
-        double timeRatio = (double)timeTrackedMs / (timeNoTrackMs > 0 ? timeNoTrackMs : 1);
-        double allocRatio = (double)bytesAllocatedTracked / (bytesAllocatedNoTrack > 0 ? bytesAllocatedNoTrack : 1);
-
-        _output.WriteLine("\n================ BENCHMARK RESULTS (10,000 ROWS) ================");
-        _output.WriteLine($"Tracked Query      : {timeTrackedMs} ms | Allocations: {bytesAllocatedTracked / 1024.0 / 1024.0:F2} MB ({bytesAllocatedTracked} bytes)");
-        _output.WriteLine($"AsNoTracking Query : {timeNoTrackMs} ms | Allocations: {bytesAllocatedNoTrack / 1024.0 / 1024.0:F2} MB ({bytesAllocatedNoTrack} bytes)");
-        _output.WriteLine($"-----------------------------------------------------------------");
-        _output.WriteLine($"Performance Win    : AsNoTracking is {timeRatio:F2}x faster");
-        _output.WriteLine($"Memory Win         : AsNoTracking allocated {allocRatio:F2}x less memory");
-        _output.WriteLine("=================================================================\n");
+        _output.WriteLine($"Tracked Query: {timeTrackedMs} ms, Allocations: {bytesAllocatedTracked / 1024.0 / 1024.0:F2} MB");
+        _output.WriteLine($"AsNoTracking Query: {timeNoTrackMs} ms, Allocations: {bytesAllocatedNoTrack / 1024.0 / 1024.0:F2} MB");
 
         Assert.Equal(10000, trackedList.Count);
         Assert.Equal(10000, noTrackingList.Count);
