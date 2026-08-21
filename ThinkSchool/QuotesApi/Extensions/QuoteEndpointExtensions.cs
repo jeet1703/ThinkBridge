@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QuotesApi.Data;
 using QuotesApi.DTOs;
 using QuotesApi.Models;
 using QuotesApi.Repositories;
@@ -168,6 +170,34 @@ public static class QuoteEndpointExtensions
             return Results.NoContent();
         }).RequireAuthorization();
 
+        group.MapGet("/slow-authors", async (
+            QuotesDbContext db,
+            CancellationToken cancellationToken) =>
+        {
+            var authors = await db.Quotes
+                .Select(q => q.Author)
+                .Distinct()
+                .ToListAsync(cancellationToken);
+
+            var result = new List<object>();
+
+            foreach (var author in authors)
+            {
+                var authorQuotes = await db.Quotes
+                    .Where(q => q.Author == author)
+                    .ToListAsync(cancellationToken);
+
+                result.Add(new
+                {
+                    Author = author,
+                    Count = authorQuotes.Count,
+                    Quotes = authorQuotes.Select(q => q.Text).ToList()
+                });
+            }
+
+            return Results.Ok(result);
+        });
+
         return endpoints;
     }
-}
+}

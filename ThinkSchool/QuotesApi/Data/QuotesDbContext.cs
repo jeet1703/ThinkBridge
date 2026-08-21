@@ -50,5 +50,10 @@ public class QuotesDbContext : DbContext
                 item.Property(i => i.AddedAt).IsRequired();
             });
         });
+
+        modelBuilder.Entity<Quote>(entity =>
+        {
+            entity.HasIndex(q => q.Author);
+        });
     }
 }
