@@ -174,26 +174,15 @@ public static class QuoteEndpointExtensions
             QuotesDbContext db,
             CancellationToken cancellationToken) =>
         {
-            var authors = await db.Quotes
-                .Select(q => q.Author)
-                .Distinct()
-                .ToListAsync(cancellationToken);
-
-            var result = new List<object>();
-
-            foreach (var author in authors)
-            {
-                var authorQuotes = await db.Quotes
-                    .Where(q => q.Author == author)
-                    .ToListAsync(cancellationToken);
-
-                result.Add(new
+            var result = await db.Quotes
+                .GroupBy(q => q.Author)
+                .Select(g => new
                 {
-                    Author = author,
-                    Count = authorQuotes.Count,
-                    Quotes = authorQuotes.Select(q => q.Text).ToList()
-                });
-            }
+                    Author = g.Key,
+                    Count = g.Count(),
+                    Quotes = g.Select(q => q.Text).ToList()
+                })
+                .ToListAsync(cancellationToken);
 
             return Results.Ok(result);
         });
