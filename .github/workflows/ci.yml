@@ -18,13 +18,13 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Restore dependencies
-      run: dotnet restore ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx
+      run: dotnet restore ThinkSchool/QuotesApi/QuotesApi.slnx
 
     - name: Build
-      run: dotnet build ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-restore
+      run: dotnet build ThinkSchool/QuotesApi/QuotesApi.slnx --no-restore
 
     - name: Run Tests
-      run: dotnet test ThinkSchool/Day3/piece3/QuotesApi/QuotesApi.slnx --no-build --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]*.Migrations.*"
+      run: dotnet test ThinkSchool/QuotesApi/QuotesApi.slnx --no-build --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]*.Migrations.*"
 
     - name: Upload Test Results
       if: always()
