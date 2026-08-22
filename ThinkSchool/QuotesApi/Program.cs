@@ -15,6 +15,7 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 builder.Services.AddProblemDetails();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 var otelBuilder = builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService("QuotesApi"))

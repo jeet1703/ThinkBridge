@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Routing;
 using QuotesApi.DTOs;
 using QuotesApi.Models;
 using QuotesApi.Repositories;
+using MediatR;
+using QuotesApi.Features.Collections.Commands.AddQuoteToCollection;
+using QuotesApi.Features.Collections.Queries.GetCollection;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -53,50 +56,21 @@ public static class CollectionEndpointExtensions
             return Results.Created($"/api/collections/{created.Id}", created);
         }).RequireAuthorization();
 
+        group.MapGet("/{id:int}", async (
+            int id,
+            IMediator mediator,
+            CancellationToken cancellationToken) =>
+        {
+            return await mediator.Send(new GetCollectionQuery(id), cancellationToken);
+        }).RequireAuthorization();
+
         group.MapPost("/{id:int}/items", async (
             int id,
             AddQuoteRequest request,
-            ICollectionRepository repository,
-            IQuoteRepository quoteRepository,
+            IMediator mediator,
             CancellationToken cancellationToken) =>
         {
-            var collection = await repository.GetByIdAsync(id, cancellationToken);
-            if (collection == null)
-            {
-                return Results.NotFound(new ProblemDetails
-                {
-                    Status = StatusCodes.Status404NotFound,
-                    Title = "Collection not found.",
-                    Detail = $"Collection {id} was not found."
-                });
-            }
-
-            var quote = await quoteRepository.GetByIdAsync(request.QuoteId, cancellationToken);
-            if (quote == null)
-            {
-                return Results.NotFound(new ProblemDetails
-                {
-                    Status = StatusCodes.Status404NotFound,
-                    Title = "Quote not found.",
-                    Detail = $"Quote {request.QuoteId} was not found."
-                });
-            }
-
-            try
-            {
-                collection.AddItem(request.QuoteId);
-                await repository.UpdateAsync(collection, cancellationToken);
-                return Results.Ok(collection);
-            }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
-            {
-                return Results.BadRequest(new ProblemDetails
-                {
-                    Status = StatusCodes.Status400BadRequest,
-                    Title = "Invalid operation.",
-                    Detail = ex.Message
-                });
-            }
+            return await mediator.Send(new AddQuoteToCollectionCommand(id, request.QuoteId), cancellationToken);
         }).RequireAuthorization();
 
         group.MapDelete("/{id:int}/items/{quoteId:int}", async (
