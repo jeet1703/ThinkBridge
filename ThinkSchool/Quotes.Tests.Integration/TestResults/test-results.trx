@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4e3e4bf0-3088-4a20-957a-eb0a443da4e7" name="PRABHJEET@LAPTOP-BCA0MQ7G 2026-08-22 12:48:59" runUser="LAPTOP-BCA0MQ7G\PRABHJEET" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-08-22T12:48:59.1323565+05:30" queuing="2026-08-22T12:48:59.1323568+05:30" start="2026-08-22T12:48:48.8122437+05:30" finish="2026-08-22T12:49:05.9992029+05:30" />
+  <TestSettings name="default" id="01f2b7bf-e2da-4a9e-b76d-394d58087cc9">
+    <Deployment runDeploymentRoot="PRABHJEET_LAPTOP-BCA0MQ7G_2026-08-22_12_48_59" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="137e0fa4-bd30-48f3-818d-fcfeb36a4e70" testId="4ccdeb5a-bc64-342b-8aad-a4b80696e58f" testName="Quotes.Tests.Integration.IntegrationTests.CallApi_EntraIdToken_ShouldReturnOk" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2095806" startTime="2026-08-22T12:49:05.5738322+05:30" endTime="2026-08-22T12:49:05.7837719+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="137e0fa4-bd30-48f3-818d-fcfeb36a4e70" />
+    <UnitTestResult executionId="c5ac596a-72b6-419b-8d7c-a19add6f3914" testId="97be385e-e53e-5e69-7686-cad60086a9f6" testName="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_NonExistentId_ShouldReturnNotFound" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.4246835" startTime="2026-08-22T12:49:00.4003885+05:30" endTime="2026-08-22T12:49:00.8253676+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5ac596a-72b6-419b-8d7c-a19add6f3914" />
+    <UnitTestResult executionId="f5b2a54a-9b77-437c-b5ee-1351e00b7ca8" testId="0dc2bb5a-f5b1-beee-00a7-80c2b89d50b7" testName="Quotes.Tests.Integration.IntegrationTests.PostCollection_Anonymous_ShouldReturnUnauthorized" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0119367" startTime="2026-08-22T12:49:04.0030680+05:30" endTime="2026-08-22T12:49:04.0155178+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f5b2a54a-9b77-437c-b5ee-1351e00b7ca8" />
+    <UnitTestResult executionId="48eb29c2-405f-469a-b61d-d7145cb97301" testId="e99591b4-93ad-3218-550e-b9e6e07905fd" testName="Quotes.Tests.Integration.IntegrationTests.RemoveCollectionItem_CollectionNotFound_ShouldReturnNotFound" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2843175" startTime="2026-08-22T12:49:04.0157197+05:30" endTime="2026-08-22T12:49:04.3003568+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="48eb29c2-405f-469a-b61d-d7145cb97301" />
+    <UnitTestResult executionId="27dcaef2-0463-4062-bd45-b391798cdb2f" testId="24908f02-2a01-4352-9544-953e8f239249" testName="Quotes.Tests.Integration.IntegrationTests.PostQuote_MissingScope_ShouldReturnForbidden" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0121779" startTime="2026-08-22T12:49:02.5719469+05:30" endTime="2026-08-22T12:49:02.5844122+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="27dcaef2-0463-4062-bd45-b391798cdb2f" />
+    <UnitTestResult executionId="f1a30374-d078-47f4-a52e-34211afcfabb" testId="cc9c6745-1d10-a202-fe08-71289ebe9285" testName="Quotes.Tests.Integration.IntegrationTests.Refresh_MissingToken_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0124598" startTime="2026-08-22T12:49:02.5590832+05:30" endTime="2026-08-22T12:49:02.5717786+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f1a30374-d078-47f4-a52e-34211afcfabb" />
+    <UnitTestResult executionId="683b058d-759e-4d09-a08c-ab546eabc039" testId="df19fc56-f378-1557-9836-457e0d13d8b0" testName="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_QuoteNotFound_ShouldReturnNotFound" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2953969" startTime="2026-08-22T12:49:02.9158992+05:30" endTime="2026-08-22T12:49:03.2117353+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="683b058d-759e-4d09-a08c-ab546eabc039" />
+    <UnitTestResult executionId="ab902bf6-17e9-49d0-b7ad-7ad5da0c84a6" testId="37107f41-265d-0103-cc4f-be5903d4b6a2" testName="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_ValidRequest_ShouldReturnOk" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2988240" startTime="2026-08-22T12:49:04.5950614+05:30" endTime="2026-08-22T12:49:04.8941460+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ab902bf6-17e9-49d0-b7ad-7ad5da0c84a6" />
+    <UnitTestResult executionId="34831407-bc7f-444f-b152-41fe56fd26cd" testId="60a6409c-fbaa-2b2a-7bf5-d1e315748d54" testName="Quotes.Tests.Integration.IntegrationTests.CallApi_EntraIdToken_WrongScope_ShouldReturnForbidden" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.4270787" startTime="2026-08-22T12:49:03.2276012+05:30" endTime="2026-08-22T12:49:03.6550926+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="34831407-bc7f-444f-b152-41fe56fd26cd" />
+    <UnitTestResult executionId="b27f8076-2633-4ac2-9065-701e6b9adb36" testId="39650875-c3ae-d743-c593-b1826ef3473c" testName="Quotes.Tests.Integration.ChangeTrackerTests.Test_3_BenchmarkAsNoTracking" computerName="LAPTOP-BCA0MQ7G" duration="00:00:08.6615296" startTime="2026-08-22T12:48:52.1843039+05:30" endTime="2026-08-22T12:49:00.8408565+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b27f8076-2633-4ac2-9065-701e6b9adb36">
+      <Output>
+        <StdOut>Seeding 10,000 quotes in database... (Please wait)&#xD;
+Seeding complete.&#xD;
+Tracked Query: 65 ms, Allocations: 10.13 MB&#xD;
+AsNoTracking Query: 21 ms, Allocations: 4.66 MB</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="1a69ffab-5dcd-4f42-9b85-70789584c65d" testId="bf0d0a14-95c3-4006-1f4a-4e33a2a68ae2" testName="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_NotOwner_ShouldReturnForbidden" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0433044" startTime="2026-08-22T12:49:00.8255783+05:30" endTime="2026-08-22T12:49:00.8691818+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1a69ffab-5dcd-4f42-9b85-70789584c65d" />
+    <UnitTestResult executionId="ad16d277-18a7-473d-81ac-83af935852f9" testId="c2ec9ca5-f63f-84ac-53cd-eaca62d8e158" testName="Quotes.Tests.Integration.QueryTranslationTests.Test_3_ClientEvalErrorAndFix" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2919900" startTime="2026-08-22T12:48:59.1167504+05:30" endTime="2026-08-22T12:48:59.3924008+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ad16d277-18a7-473d-81ac-83af935852f9">
+      <Output>
+        <StdOut>caught client-eval error:&#xD;
+The LINQ expression 'DbSet&lt;Quote&gt;()&#xD;
+    .Where(q =&gt; QueryTranslationTests.FormatAuthor(q.Author) == "ADA LOVELACE")' could not be translated. Additional information: Translation of method 'Quotes.Tests.Integration.QueryTranslationTests.FormatAuthor' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.&#xD;
+
+fixed sql is:&#xD;
+SELECT "q"."Id", "q"."Author", "q"."CreatedByUserId", "q"."Text"&#xD;
+FROM "Quotes" AS "q"&#xD;
+WHERE upper("q"."Author") = 'ADA LOVELACE'</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="05a2d154-531e-48f2-bb91-d39f48d49818" testId="70774732-960b-aed2-dab0-fa91ed007f8f" testName="Quotes.Tests.Integration.IntegrationTests.PostQuote_InvalidInput_ShouldReturnValidationProblemDetails" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0132168" startTime="2026-08-22T12:49:05.5599060+05:30" endTime="2026-08-22T12:49:05.5736247+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05a2d154-531e-48f2-bb91-d39f48d49818" />
+    <UnitTestResult executionId="5c993dd9-a76a-4213-98c7-ce2f68436e54" testId="18b20015-b9b5-18f4-7ba6-440cd4576414" testName="Quotes.Tests.Integration.IntegrationTests.RemoveCollectionItem_ValidRequest_ShouldReturnOk" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.3170170" startTime="2026-08-22T12:49:03.6553806+05:30" endTime="2026-08-22T12:49:03.9727547+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5c993dd9-a76a-4213-98c7-ce2f68436e54" />
+    <UnitTestResult executionId="deabf840-d543-4df5-8258-6e5ca5511a40" testId="58696a5e-2d60-dce9-f943-6947c6cfb280" testName="Quotes.Tests.Integration.IntegrationTests.GetQuoteById_NonExistentId_ShouldReturnNotFound" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0208358" startTime="2026-08-22T12:49:05.2324920+05:30" endTime="2026-08-22T12:49:05.2536959+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="deabf840-d543-4df5-8258-6e5ca5511a40" />
+    <UnitTestResult executionId="9a5b5453-5538-4314-b6f6-f1e04d07014b" testId="b940c0f4-b8ae-f24f-c237-be8526308ea8" testName="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_Anonymous_ShouldReturnUnauthorized" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0133962" startTime="2026-08-22T12:49:01.8948415+05:30" endTime="2026-08-22T12:49:01.9087747+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a5b5453-5538-4314-b6f6-f1e04d07014b" />
+    <UnitTestResult executionId="0648b61e-ef81-42ef-a3ae-7a1b31968752" testId="3946d1d3-7b89-192b-66de-0644bc3cc8af" testName="Quotes.Tests.Integration.IntegrationTests.CallApi_MalformedToken_ShouldFallbackToLocalJwtAndReturnUnauthorized" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0151450" startTime="2026-08-22T12:49:03.2119276+05:30" endTime="2026-08-22T12:49:03.2274245+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0648b61e-ef81-42ef-a3ae-7a1b31968752" />
+    <UnitTestResult executionId="c6b91f7d-97ac-4f89-83ec-509001d9e9b1" testId="f89d842c-9de8-9989-af77-65a861906fa3" testName="Quotes.Tests.Integration.IntegrationTests.PostQuote_ValidRequest_ShouldReturnCreatedAndDatabasePersist" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0154949" startTime="2026-08-22T12:49:03.9870548+05:30" endTime="2026-08-22T12:49:04.0028481+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6b91f7d-97ac-4f89-83ec-509001d9e9b1" />
+    <UnitTestResult executionId="92c6118b-109f-4ecc-ae37-eb659bef1312" testId="3c2e7e09-38e6-f7fa-a1d1-769eea7c007f" testName="Quotes.Tests.Integration.IntegrationTests.GetQuotes_InvalidPageAndSize_ShouldReturnValidationProblem" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0408670" startTime="2026-08-22T12:49:01.5546560+05:30" endTime="2026-08-22T12:49:01.5956679+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="92c6118b-109f-4ecc-ae37-eb659bef1312" />
+    <UnitTestResult executionId="93bf3bee-8e30-4423-83ee-470d445f8256" testId="198301e0-1b33-8155-f915-650d1bd32275" testName="Quotes.Tests.Integration.IntegrationTests.Refresh_TokenReuse_ShouldTriggerRevocationAndReturnUnauthorized" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.6206358" startTime="2026-08-22T12:49:01.9379949+05:30" endTime="2026-08-22T12:49:02.5588935+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="93bf3bee-8e30-4423-83ee-470d445f8256" />
+    <UnitTestResult executionId="9315df70-da7d-4cb4-b047-f8d215ba4d71" testId="1f12d1a6-0f06-f6bb-81ab-01a56b594c47" testName="Quotes.Tests.Integration.IntegrationTests.GetQuotes_DefaultPageAndSize_ShouldReturnOk" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0452319" startTime="2026-08-22T12:49:05.5140366+05:30" endTime="2026-08-22T12:49:05.5596889+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9315df70-da7d-4cb4-b047-f8d215ba4d71" />
+    <UnitTestResult executionId="c043f127-3132-4964-b643-bf42c76b0027" testId="0117349d-8cf5-562d-6a63-5533b1a0cc6e" testName="Quotes.Tests.Integration.IntegrationTests.Logout_MissingToken_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0134963" startTime="2026-08-22T12:49:03.9729660+05:30" endTime="2026-08-22T12:49:03.9868356+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c043f127-3132-4964-b643-bf42c76b0027" />
+    <UnitTestResult executionId="f3c7ccb6-cbaf-4745-a4dd-c702f1b5ed47" testId="fdc9cc4f-be07-3e2a-0074-51049601045c" testName="Quotes.Tests.Integration.IntegrationTests.Login_MissingCredentials_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0232841" startTime="2026-08-22T12:49:00.3764365+05:30" endTime="2026-08-22T12:49:00.4001727+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f3c7ccb6-cbaf-4745-a4dd-c702f1b5ed47" />
+    <UnitTestResult executionId="dae3ed8e-636f-432f-84cd-820cb9d2c50d" testId="1ffe1179-cbba-2b76-246c-5daab131bc7c" testName="Quotes.Tests.Integration.IntegrationTests.PostQuote_Anonymous_ShouldReturnUnauthorized" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0188476" startTime="2026-08-22T12:49:05.2131113+05:30" endTime="2026-08-22T12:49:05.2322608+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dae3ed8e-636f-432f-84cd-820cb9d2c50d" />
+    <UnitTestResult executionId="11f7f3ec-940d-478c-94dd-e7858963f4f4" testId="04f2af1d-9911-1713-303a-871c233b1ba8" testName="Quotes.Tests.Integration.IntegrationTests.PostCollection_MissingOwnerId_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2941409" startTime="2026-08-22T12:49:04.3005899+05:30" endTime="2026-08-22T12:49:04.5948330+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="11f7f3ec-940d-478c-94dd-e7858963f4f4" />
+    <UnitTestResult executionId="0a5bdfd5-e869-4394-a541-37bfb6850ee1" testId="3aaf040f-3ba2-646d-f99c-aded08938393" testName="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_CollectionNotFound_ShouldReturnNotFound" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2596278" startTime="2026-08-22T12:49:05.2540716+05:30" endTime="2026-08-22T12:49:05.5138075+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a5bdfd5-e869-4394-a541-37bfb6850ee1" />
+    <UnitTestResult executionId="38a8158c-51f7-4fc8-b1f0-29046e5b5838" testId="c0ef69c4-d824-d2bc-ce11-5da05b9a7ae3" testName="Quotes.Tests.Integration.QueryTranslationTests.Test_2_ProjectedDtoQuery" computerName="LAPTOP-BCA0MQ7G" duration="00:00:06.9136601" startTime="2026-08-22T12:48:52.1842251+05:30" endTime="2026-08-22T12:48:59.0999570+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38a8158c-51f7-4fc8-b1f0-29046e5b5838">
+      <Output>
+        <StdOut>projected sql is:&#xD;
+SELECT "q"."Id", "q"."Author", "q"."Text"&#xD;
+FROM "Quotes" AS "q"</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c8199d53-5f10-4340-8202-2a25f2244b9a" testId="b1fd71dd-cce7-c82f-c926-2f294d8ce46e" testName="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_DuplicateQuote_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.3307802" startTime="2026-08-22T12:49:02.5845795+05:30" endTime="2026-08-22T12:49:02.9156856+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8199d53-5f10-4340-8202-2a25f2244b9a" />
+    <UnitTestResult executionId="504636e3-f030-4d04-a8fe-6ca0bcac0577" testId="cfbfb7d2-bc49-023e-b592-01fa033bb5f5" testName="Quotes.Tests.Integration.IntegrationTests.Login_InvalidCredentials_ShouldReturnUnauthorized" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0111694" startTime="2026-08-22T12:49:04.8943560+05:30" endTime="2026-08-22T12:49:04.9058325+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="504636e3-f030-4d04-a8fe-6ca0bcac0577" />
+    <UnitTestResult executionId="14ee169c-7709-4587-b97f-3d4c97e0a5e1" testId="305f64b3-2ede-1c5b-7c12-6e4cfafc4cca" testName="Quotes.Tests.Integration.IntegrationTests.GetQuoteById_ExistingId_ShouldReturnOk" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2878999" startTime="2026-08-22T12:49:01.2664565+05:30" endTime="2026-08-22T12:49:01.5544711+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14ee169c-7709-4587-b97f-3d4c97e0a5e1" />
+    <UnitTestResult executionId="881c5607-c9e6-4eda-b604-18f828b9280d" testId="f1ed898e-57bf-2455-8a0e-bce3614c1ae2" testName="Quotes.Tests.Integration.IntegrationTests.PostCollection_ValidName_ShouldReturnCreated" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.2981713" startTime="2026-08-22T12:49:01.5958828+05:30" endTime="2026-08-22T12:49:01.8942323+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="881c5607-c9e6-4eda-b604-18f828b9280d" />
+    <UnitTestResult executionId="a89ae341-bdb4-4710-a1e3-d8f56d6ca5de" testId="85e9f688-123c-340f-3da6-e52c884cfd77" testName="Quotes.Tests.Integration.ChangeTrackerTests.Test_1_IdentityResolution" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0240096" startTime="2026-08-22T12:49:00.8412602+05:30" endTime="2026-08-22T12:49:00.8649092+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a89ae341-bdb4-4710-a1e3-d8f56d6ca5de">
+      <Output>
+        <StdOut>With tracking enabled:&#xD;
+q1 HashCode: 44536556&#xD;
+q2 HashCode: 44536556&#xD;
+Are references equal? True&#xD;
+
+With AsNoTracking() enabled:&#xD;
+q3 HashCode: 30166819&#xD;
+q4 HashCode: 55337568&#xD;
+Are references equal? False</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="341d90d1-4fd7-4c1f-b1ca-aa681654e1da" testId="f6085f1a-4ec3-2e8d-7f0a-903093336400" testName="Quotes.Tests.Integration.IntegrationTests.RemoveCollectionItem_NotFound_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.3966074" startTime="2026-08-22T12:49:00.8693791+05:30" endTime="2026-08-22T12:49:01.2662649+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="341d90d1-4fd7-4c1f-b1ca-aa681654e1da" />
+    <UnitTestResult executionId="51b83d84-c65e-442f-9454-3a1045fa2204" testId="a8c2b77e-513b-6fb6-7097-7d01ab468136" testName="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_Owner_ShouldReturnNoContent" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0284576" startTime="2026-08-22T12:49:01.9089665+05:30" endTime="2026-08-22T12:49:01.9377966+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51b83d84-c65e-442f-9454-3a1045fa2204" />
+    <UnitTestResult executionId="b7d66bf9-5a8a-478b-a00b-c9501171f971" testId="10ba7aa4-3931-d5c0-8efb-8ba6f2cfc1c4" testName="Quotes.Tests.Integration.ChangeTrackerTests.Test_2_TrackingVsNot" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0131696" startTime="2026-08-22T12:49:00.8650975+05:30" endTime="2026-08-22T12:49:00.8781993+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b7d66bf9-5a8a-478b-a00b-c9501171f971">
+      <Output>
+        <StdOut>Tracked update saved author as: 'Alan T.'&#xD;
+Untracked update author is still: 'Alan T.'</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e34ab82f-fcf1-4016-9c0a-7f5846146d0c" testId="96eb1a3c-5496-40c1-03d4-f1eb2132e11e" testName="Quotes.Tests.Integration.IntegrationTests.Logout_ValidToken_ShouldReturnNoContent" computerName="LAPTOP-BCA0MQ7G" duration="00:00:08.1917807" startTime="2026-08-22T12:48:52.1824145+05:30" endTime="2026-08-22T12:49:00.3748706+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e34ab82f-fcf1-4016-9c0a-7f5846146d0c" />
+    <UnitTestResult executionId="24d3882a-ffc1-42ac-bd62-d02c9a828233" testId="010bde75-d0a3-1df0-770f-3899d93582cd" testName="Quotes.Tests.Integration.QueryTranslationTests.Test_1_WholeEntityQuery" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.0119697" startTime="2026-08-22T12:48:59.3933608+05:30" endTime="2026-08-22T12:48:59.4043377+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24d3882a-ffc1-42ac-bd62-d02c9a828233">
+      <Output>
+        <StdOut>original sql is:&#xD;
+SELECT "q"."Id", "q"."Author", "q"."CreatedByUserId", "q"."Text"&#xD;
+FROM "Quotes" AS "q"</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="80b600bb-1926-4c01-907d-d615933f3705" testId="ae1f277e-10c2-6a4a-3e2b-b0ff83b54a80" testName="Quotes.Tests.Integration.IntegrationTests.PostCollection_InvalidName_ShouldReturnBadRequest" computerName="LAPTOP-BCA0MQ7G" duration="00:00:00.3063608" startTime="2026-08-22T12:49:04.9091387+05:30" endTime="2026-08-22T12:49:05.2128347+05:30" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="80b600bb-1926-4c01-907d-d615933f3705" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_CollectionNotFound_ShouldReturnNotFound" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="3aaf040f-3ba2-646d-f99c-aded08938393">
+      <Execution id="0a5bdfd5-e869-4394-a541-37bfb6850ee1" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="AddCollectionItem_CollectionNotFound_ShouldReturnNotFound" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_QuoteNotFound_ShouldReturnNotFound" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="df19fc56-f378-1557-9836-457e0d13d8b0">
+      <Execution id="683b058d-759e-4d09-a08c-ab546eabc039" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="AddCollectionItem_QuoteNotFound_ShouldReturnNotFound" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.Refresh_MissingToken_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="cc9c6745-1d10-a202-fe08-71289ebe9285">
+      <Execution id="f1a30374-d078-47f4-a52e-34211afcfabb" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="Refresh_MissingToken_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.RemoveCollectionItem_CollectionNotFound_ShouldReturnNotFound" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="e99591b4-93ad-3218-550e-b9e6e07905fd">
+      <Execution id="48eb29c2-405f-469a-b61d-d7145cb97301" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="RemoveCollectionItem_CollectionNotFound_ShouldReturnNotFound" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_NonExistentId_ShouldReturnNotFound" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="97be385e-e53e-5e69-7686-cad60086a9f6">
+      <Execution id="c5ac596a-72b6-419b-8d7c-a19add6f3914" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="DeleteQuote_NonExistentId_ShouldReturnNotFound" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.QueryTranslationTests.Test_1_WholeEntityQuery" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="010bde75-d0a3-1df0-770f-3899d93582cd">
+      <Execution id="24d3882a-ffc1-42ac-bd62-d02c9a828233" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.QueryTranslationTests" name="Test_1_WholeEntityQuery" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.ChangeTrackerTests.Test_1_IdentityResolution" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="85e9f688-123c-340f-3da6-e52c884cfd77">
+      <Execution id="a89ae341-bdb4-4710-a1e3-d8f56d6ca5de" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.ChangeTrackerTests" name="Test_1_IdentityResolution" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.GetQuotes_InvalidPageAndSize_ShouldReturnValidationProblem" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="3c2e7e09-38e6-f7fa-a1d1-769eea7c007f">
+      <Execution id="92c6118b-109f-4ecc-ae37-eb659bef1312" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="GetQuotes_InvalidPageAndSize_ShouldReturnValidationProblem" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.QueryTranslationTests.Test_3_ClientEvalErrorAndFix" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="c2ec9ca5-f63f-84ac-53cd-eaca62d8e158">
+      <Execution id="ad16d277-18a7-473d-81ac-83af935852f9" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.QueryTranslationTests" name="Test_3_ClientEvalErrorAndFix" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.GetQuotes_DefaultPageAndSize_ShouldReturnOk" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="1f12d1a6-0f06-f6bb-81ab-01a56b594c47">
+      <Execution id="9315df70-da7d-4cb4-b047-f8d215ba4d71" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="GetQuotes_DefaultPageAndSize_ShouldReturnOk" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_NotOwner_ShouldReturnForbidden" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="bf0d0a14-95c3-4006-1f4a-4e33a2a68ae2">
+      <Execution id="1a69ffab-5dcd-4f42-9b85-70789584c65d" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="DeleteQuote_NotOwner_ShouldReturnForbidden" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.CallApi_EntraIdToken_ShouldReturnOk" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="4ccdeb5a-bc64-342b-8aad-a4b80696e58f">
+      <Execution id="137e0fa4-bd30-48f3-818d-fcfeb36a4e70" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="CallApi_EntraIdToken_ShouldReturnOk" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.Logout_MissingToken_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="0117349d-8cf5-562d-6a63-5533b1a0cc6e">
+      <Execution id="c043f127-3132-4964-b643-bf42c76b0027" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="Logout_MissingToken_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_Owner_ShouldReturnNoContent" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="a8c2b77e-513b-6fb6-7097-7d01ab468136">
+      <Execution id="51b83d84-c65e-442f-9454-3a1045fa2204" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="DeleteQuote_Owner_ShouldReturnNoContent" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.GetQuoteById_ExistingId_ShouldReturnOk" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="305f64b3-2ede-1c5b-7c12-6e4cfafc4cca">
+      <Execution id="14ee169c-7709-4587-b97f-3d4c97e0a5e1" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="GetQuoteById_ExistingId_ShouldReturnOk" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostCollection_MissingOwnerId_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="04f2af1d-9911-1713-303a-871c233b1ba8">
+      <Execution id="11f7f3ec-940d-478c-94dd-e7858963f4f4" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostCollection_MissingOwnerId_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.GetQuoteById_NonExistentId_ShouldReturnNotFound" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="58696a5e-2d60-dce9-f943-6947c6cfb280">
+      <Execution id="deabf840-d543-4df5-8258-6e5ca5511a40" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="GetQuoteById_NonExistentId_ShouldReturnNotFound" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.CallApi_EntraIdToken_WrongScope_ShouldReturnForbidden" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="60a6409c-fbaa-2b2a-7bf5-d1e315748d54">
+      <Execution id="34831407-bc7f-444f-b152-41fe56fd26cd" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="CallApi_EntraIdToken_WrongScope_ShouldReturnForbidden" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.Logout_ValidToken_ShouldReturnNoContent" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="96eb1a3c-5496-40c1-03d4-f1eb2132e11e">
+      <Execution id="e34ab82f-fcf1-4016-9c0a-7f5846146d0c" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="Logout_ValidToken_ShouldReturnNoContent" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_ValidRequest_ShouldReturnOk" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="37107f41-265d-0103-cc4f-be5903d4b6a2">
+      <Execution id="ab902bf6-17e9-49d0-b7ad-7ad5da0c84a6" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="AddCollectionItem_ValidRequest_ShouldReturnOk" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostCollection_InvalidName_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="ae1f277e-10c2-6a4a-3e2b-b0ff83b54a80">
+      <Execution id="80b600bb-1926-4c01-907d-d615933f3705" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostCollection_InvalidName_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostCollection_Anonymous_ShouldReturnUnauthorized" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="0dc2bb5a-f5b1-beee-00a7-80c2b89d50b7">
+      <Execution id="f5b2a54a-9b77-437c-b5ee-1351e00b7ca8" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostCollection_Anonymous_ShouldReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.DeleteQuote_Anonymous_ShouldReturnUnauthorized" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="b940c0f4-b8ae-f24f-c237-be8526308ea8">
+      <Execution id="9a5b5453-5538-4314-b6f6-f1e04d07014b" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="DeleteQuote_Anonymous_ShouldReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.RemoveCollectionItem_NotFound_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="f6085f1a-4ec3-2e8d-7f0a-903093336400">
+      <Execution id="341d90d1-4fd7-4c1f-b1ca-aa681654e1da" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="RemoveCollectionItem_NotFound_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.CallApi_MalformedToken_ShouldFallbackToLocalJwtAndReturnUnauthorized" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="3946d1d3-7b89-192b-66de-0644bc3cc8af">
+      <Execution id="0648b61e-ef81-42ef-a3ae-7a1b31968752" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="CallApi_MalformedToken_ShouldFallbackToLocalJwtAndReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.AddCollectionItem_DuplicateQuote_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="b1fd71dd-cce7-c82f-c926-2f294d8ce46e">
+      <Execution id="c8199d53-5f10-4340-8202-2a25f2244b9a" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="AddCollectionItem_DuplicateQuote_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.Login_InvalidCredentials_ShouldReturnUnauthorized" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="cfbfb7d2-bc49-023e-b592-01fa033bb5f5">
+      <Execution id="504636e3-f030-4d04-a8fe-6ca0bcac0577" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="Login_InvalidCredentials_ShouldReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostQuote_Anonymous_ShouldReturnUnauthorized" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="1ffe1179-cbba-2b76-246c-5daab131bc7c">
+      <Execution id="dae3ed8e-636f-432f-84cd-820cb9d2c50d" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostQuote_Anonymous_ShouldReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.Refresh_TokenReuse_ShouldTriggerRevocationAndReturnUnauthorized" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="198301e0-1b33-8155-f915-650d1bd32275">
+      <Execution id="93bf3bee-8e30-4423-83ee-470d445f8256" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="Refresh_TokenReuse_ShouldTriggerRevocationAndReturnUnauthorized" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostQuote_ValidRequest_ShouldReturnCreatedAndDatabasePersist" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="f89d842c-9de8-9989-af77-65a861906fa3">
+      <Execution id="c6b91f7d-97ac-4f89-83ec-509001d9e9b1" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostQuote_ValidRequest_ShouldReturnCreatedAndDatabasePersist" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostQuote_MissingScope_ShouldReturnForbidden" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="24908f02-2a01-4352-9544-953e8f239249">
+      <Execution id="27dcaef2-0463-4062-bd45-b391798cdb2f" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostQuote_MissingScope_ShouldReturnForbidden" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.RemoveCollectionItem_ValidRequest_ShouldReturnOk" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="18b20015-b9b5-18f4-7ba6-440cd4576414">
+      <Execution id="5c993dd9-a76a-4213-98c7-ce2f68436e54" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="RemoveCollectionItem_ValidRequest_ShouldReturnOk" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.Login_MissingCredentials_ShouldReturnBadRequest" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="fdc9cc4f-be07-3e2a-0074-51049601045c">
+      <Execution id="f3c7ccb6-cbaf-4745-a4dd-c702f1b5ed47" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="Login_MissingCredentials_ShouldReturnBadRequest" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.ChangeTrackerTests.Test_3_BenchmarkAsNoTracking" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="39650875-c3ae-d743-c593-b1826ef3473c">
+      <Execution id="b27f8076-2633-4ac2-9065-701e6b9adb36" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.ChangeTrackerTests" name="Test_3_BenchmarkAsNoTracking" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.QueryTranslationTests.Test_2_ProjectedDtoQuery" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="c0ef69c4-d824-d2bc-ce11-5da05b9a7ae3">
+      <Execution id="38a8158c-51f7-4fc8-b1f0-29046e5b5838" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.QueryTranslationTests" name="Test_2_ProjectedDtoQuery" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostQuote_InvalidInput_ShouldReturnValidationProblemDetails" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="70774732-960b-aed2-dab0-fa91ed007f8f">
+      <Execution id="05a2d154-531e-48f2-bb91-d39f48d49818" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostQuote_InvalidInput_ShouldReturnValidationProblemDetails" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.IntegrationTests.PostCollection_ValidName_ShouldReturnCreated" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="f1ed898e-57bf-2455-8a0e-bce3614c1ae2">
+      <Execution id="881c5607-c9e6-4eda-b604-18f828b9280d" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.IntegrationTests" name="PostCollection_ValidName_ShouldReturnCreated" />
+    </UnitTest>
+    <UnitTest name="Quotes.Tests.Integration.ChangeTrackerTests.Test_2_TrackingVsNot" storage="c:\pj\thinkbridge\thinkschool\quotes.tests.integration\bin\debug\net10.0\quotes.tests.integration.dll" id="10ba7aa4-3931-d5c0-8efb-8ba6f2cfc1c4">
+      <Execution id="b7d66bf9-5a8a-478b-a00b-c9501171f971" />
+      <TestMethod codeBase="C:\pj\Thinkbridge\ThinkSchool\Quotes.Tests.Integration\bin\Debug\net10.0\Quotes.Tests.Integration.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="Quotes.Tests.Integration.ChangeTrackerTests" name="Test_2_TrackingVsNot" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="4ccdeb5a-bc64-342b-8aad-a4b80696e58f" executionId="137e0fa4-bd30-48f3-818d-fcfeb36a4e70" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="97be385e-e53e-5e69-7686-cad60086a9f6" executionId="c5ac596a-72b6-419b-8d7c-a19add6f3914" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0dc2bb5a-f5b1-beee-00a7-80c2b89d50b7" executionId="f5b2a54a-9b77-437c-b5ee-1351e00b7ca8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e99591b4-93ad-3218-550e-b9e6e07905fd" executionId="48eb29c2-405f-469a-b61d-d7145cb97301" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="24908f02-2a01-4352-9544-953e8f239249" executionId="27dcaef2-0463-4062-bd45-b391798cdb2f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc9c6745-1d10-a202-fe08-71289ebe9285" executionId="f1a30374-d078-47f4-a52e-34211afcfabb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="df19fc56-f378-1557-9836-457e0d13d8b0" executionId="683b058d-759e-4d09-a08c-ab546eabc039" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="37107f41-265d-0103-cc4f-be5903d4b6a2" executionId="ab902bf6-17e9-49d0-b7ad-7ad5da0c84a6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60a6409c-fbaa-2b2a-7bf5-d1e315748d54" executionId="34831407-bc7f-444f-b152-41fe56fd26cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="39650875-c3ae-d743-c593-b1826ef3473c" executionId="b27f8076-2633-4ac2-9065-701e6b9adb36" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bf0d0a14-95c3-4006-1f4a-4e33a2a68ae2" executionId="1a69ffab-5dcd-4f42-9b85-70789584c65d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c2ec9ca5-f63f-84ac-53cd-eaca62d8e158" executionId="ad16d277-18a7-473d-81ac-83af935852f9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="70774732-960b-aed2-dab0-fa91ed007f8f" executionId="05a2d154-531e-48f2-bb91-d39f48d49818" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="18b20015-b9b5-18f4-7ba6-440cd4576414" executionId="5c993dd9-a76a-4213-98c7-ce2f68436e54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="58696a5e-2d60-dce9-f943-6947c6cfb280" executionId="deabf840-d543-4df5-8258-6e5ca5511a40" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b940c0f4-b8ae-f24f-c237-be8526308ea8" executionId="9a5b5453-5538-4314-b6f6-f1e04d07014b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3946d1d3-7b89-192b-66de-0644bc3cc8af" executionId="0648b61e-ef81-42ef-a3ae-7a1b31968752" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f89d842c-9de8-9989-af77-65a861906fa3" executionId="c6b91f7d-97ac-4f89-83ec-509001d9e9b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c2e7e09-38e6-f7fa-a1d1-769eea7c007f" executionId="92c6118b-109f-4ecc-ae37-eb659bef1312" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="198301e0-1b33-8155-f915-650d1bd32275" executionId="93bf3bee-8e30-4423-83ee-470d445f8256" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1f12d1a6-0f06-f6bb-81ab-01a56b594c47" executionId="9315df70-da7d-4cb4-b047-f8d215ba4d71" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0117349d-8cf5-562d-6a63-5533b1a0cc6e" executionId="c043f127-3132-4964-b643-bf42c76b0027" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fdc9cc4f-be07-3e2a-0074-51049601045c" executionId="f3c7ccb6-cbaf-4745-a4dd-c702f1b5ed47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1ffe1179-cbba-2b76-246c-5daab131bc7c" executionId="dae3ed8e-636f-432f-84cd-820cb9d2c50d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="04f2af1d-9911-1713-303a-871c233b1ba8" executionId="11f7f3ec-940d-478c-94dd-e7858963f4f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3aaf040f-3ba2-646d-f99c-aded08938393" executionId="0a5bdfd5-e869-4394-a541-37bfb6850ee1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c0ef69c4-d824-d2bc-ce11-5da05b9a7ae3" executionId="38a8158c-51f7-4fc8-b1f0-29046e5b5838" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b1fd71dd-cce7-c82f-c926-2f294d8ce46e" executionId="c8199d53-5f10-4340-8202-2a25f2244b9a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cfbfb7d2-bc49-023e-b592-01fa033bb5f5" executionId="504636e3-f030-4d04-a8fe-6ca0bcac0577" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="305f64b3-2ede-1c5b-7c12-6e4cfafc4cca" executionId="14ee169c-7709-4587-b97f-3d4c97e0a5e1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f1ed898e-57bf-2455-8a0e-bce3614c1ae2" executionId="881c5607-c9e6-4eda-b604-18f828b9280d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="85e9f688-123c-340f-3da6-e52c884cfd77" executionId="a89ae341-bdb4-4710-a1e3-d8f56d6ca5de" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6085f1a-4ec3-2e8d-7f0a-903093336400" executionId="341d90d1-4fd7-4c1f-b1ca-aa681654e1da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8c2b77e-513b-6fb6-7097-7d01ab468136" executionId="51b83d84-c65e-442f-9454-3a1045fa2204" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10ba7aa4-3931-d5c0-8efb-8ba6f2cfc1c4" executionId="b7d66bf9-5a8a-478b-a00b-c9501171f971" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="96eb1a3c-5496-40c1-03d4-f1eb2132e11e" executionId="e34ab82f-fcf1-4016-9c0a-7f5846146d0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="010bde75-d0a3-1df0-770f-3899d93582cd" executionId="24d3882a-ffc1-42ac-bd62-d02c9a828233" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae1f277e-10c2-6a4a-3e2b-b0ff83b54a80" executionId="80b600bb-1926-4c01-907d-d615933f3705" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="38" executed="38" passed="38" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.5+1b188a7b0a (64-bit .NET 10.0.10)&#xD;
+[xUnit.net 00:00:02.12]   Discovering: Quotes.Tests.Integration&#xD;
+[xUnit.net 00:00:02.18]   Discovered:  Quotes.Tests.Integration&#xD;
+[xUnit.net 00:00:02.21]   Starting:    Quotes.Tests.Integration&#xD;
+[12:48:57 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:57 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:57 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260810173153_AddCollections'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260810173153_AddCollections'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260810173153_AddCollections'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260811062252_AddUsersTable'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260811062252_AddUsersTable'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260811062252_AddUsersTable'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260811074108_AddRefreshTokensTable'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260811074108_AddRefreshTokensTable'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260811074108_AddRefreshTokensTable'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260812060556_AddQuoteOwner'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260812060556_AddQuoteOwner'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260812060556_AddQuoteOwner'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260821045258_AddAuthorIndex'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260821045258_AddAuthorIndex'. (TraceId: )&#xD;
+[12:48:58 INF] Applying migration '20260821045258_AddAuthorIndex'. (TraceId: )&#xD;
+[12:48:58 INF] Application started. Press Ctrl+C to shut down. (TraceId: )&#xD;
+[12:48:58 INF] Hosting environment: Development (TraceId: )&#xD;
+[12:48:58 INF] Content root path: C:\pj\Thinkbridge\ThinkSchool\QuotesApi (TraceId: )&#xD;
+[12:48:58 INF] Application started. Press Ctrl+C to shut down. (TraceId: )&#xD;
+[12:48:58 INF] Application started. Press Ctrl+C to shut down. (TraceId: )&#xD;
+[12:48:58 INF] Hosting environment: Development (TraceId: )&#xD;
+[12:48:58 INF] Content root path: C:\pj\Thinkbridge\ThinkSchool\QuotesApi (TraceId: )&#xD;
+[12:48:58 INF] Hosting environment: Development (TraceId: )&#xD;
+[12:48:58 INF] Content root path: C:\pj\Thinkbridge\ThinkSchool\QuotesApi (TraceId: )&#xD;
+[12:48:59 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:59 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:59 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:59 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:48:59 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:48:59 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:48:59 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:59 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:48:59 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:48:59 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:48:59 INF] Application is shutting down... (TraceId: )&#xD;
+[12:49:00 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:00 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:00 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:00 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:00 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:00 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:00 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:00 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:00 INF] Created quote 1 (TraceId: 2f61796c110d5ecfec9409e779770b19)&#xD;
+[12:49:00 WRN] User 2 denied ownership of quote 1 (TraceId: 81abe94d7451d5b96420147ff320bb44)&#xD;
+[12:49:00 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:00 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:00 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:00 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:00 INF] Application is shutting down... (TraceId: )&#xD;
+[12:49:01 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:01 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:01 INF] Created quote 2 (TraceId: 1301f0d6c450848e243d721191c3b305)&#xD;
+[12:49:01 INF] Getting quote 2 (TraceId: 35f57b492dc45cff62713e14d399e297)&#xD;
+[12:49:01 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:01 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+     Warning:&#xD;
+     The component "Fluent Assertions" is governed by the rules defined in the Xceed License Agreement and&#xD;
+     the Xceed Fluent Assertions Community License. You may use Fluent Assertions free of charge for&#xD;
+     non-commercial use only. An active subscription is required to use Fluent Assertions for commercial use.&#xD;
+     Please contact Xceed Sales mailto:sales@xceed.com to acquire a subscription at a very low cost.&#xD;
+     A paid commercial license supports the development and continued increasing support of&#xD;
+     Fluent Assertions users under both commercial and community licenses. Help us&#xD;
+     keep Fluent Assertions at the forefront of unit testing.&#xD;
+     For more information, visit https://xceed.com/products/unit-testing/fluent-assertions/&#xD;
+[12:49:01 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:01 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:01 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:01 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:01 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:01 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:01 INF] Created quote 3 (TraceId: 8a2cfa28c677424e1fdf9d1fc324900d)&#xD;
+[12:49:01 INF] Deleted quote 3 (TraceId: 4e43134025ecb7fc2961f3ecfe804a96)&#xD;
+[12:49:01 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:01 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:02 WRN] SECURITY ALERT: Reuse of refresh token detected for UserId 7. Revoking all active tokens. (TraceId: 06c3b68c72e60932e499f649b022f24d)&#xD;
+[12:49:02 WRN] SECURITY ALERT: Reuse of refresh token detected for UserId 7. Revoking all active tokens. (TraceId: 505acfd6f4bee80751c8eb163b6b905d)&#xD;
+[12:49:02 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:02 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:02 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:02 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:02 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:02 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:02 INF] Created quote 4 (TraceId: aa5ba4d2886a8034e8f7d424f2a357fa)&#xD;
+[12:49:02 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:02 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:03 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:03 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:03 INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long. (TraceId: )&#xD;
+[12:49:03 INF] No migrations were applied. The database is already up to date. (TraceId: )&#xD;
+[12:49:03 INF] Created quote 5 (TraceId: 79efec141d3389df3f3d74efe4b27015)&#xD;
+[12:49:03 INF] Created quote 6 (TraceId: 7e20c03a541d0401b9c38c61f74522c2)&#xD;
+[12:49:04 INF] Created quote 7 (TraceId: 7ffdb2e3d97bcecadc0e7bdc9370ef75)&#xD;
+[12:49:05 INF] Getting quote 9999 (TraceId: d167ac03d0548109c21e23682354e7e5)&#xD;
+[12:49:05 INF] Fetching quotes page 1 with size 10 (TraceId: a4c002c4b7aa8d6e173d3c1b76cbadba)&#xD;
+[12:49:05 INF] Created quote 8 (TraceId: 8fe182e55b8fe1b74f0b669c97f3d6de)&#xD;
+[12:49:05 INF] Application is shutting down... (TraceId: )&#xD;
+[xUnit.net 00:00:15.97]   Finished:    Quotes.Tests.Integration&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

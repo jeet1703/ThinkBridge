@@ -38,8 +38,8 @@ public class IntegrationTests : IClassFixture<IntegrationTestFactory>
         var client = _factory.CreateClient();
 
         var response = await client.GetAsync("/api/quotes?page=1&size=10");
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        throw new Exception($"DEBUG RESPONSE: Status={response.StatusCode}, Body={content}");
     }
 
     [Fact]

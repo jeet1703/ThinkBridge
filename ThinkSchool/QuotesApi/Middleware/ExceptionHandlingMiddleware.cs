@@ -29,6 +29,8 @@ public class ExceptionHandlingMiddleware
                 context.Request.Method,
                 context.Request.Path);
 
+            Console.WriteLine($"[DEBUG EXCEPTION] Method={context.Request.Method}, Path={context.Request.Path}, Exception={exception}");
+
             var problem = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
