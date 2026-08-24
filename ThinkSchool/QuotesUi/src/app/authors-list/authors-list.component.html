@@ -1,0 +1,55 @@
+<section class="authors">
+  <header class="authors__header">
+    <h2>Authors</h2>
+    @if (viewState() === 'success') {
+      <span class="authors__count">{{ authors().length }} authors · {{ totalQuotes() }} quotes</span>
+    }
+  </header>
+
+  @switch (viewState()) {
+    @case ('loading') {
+      <div class="state state--loading">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading authors…</p>
+      </div>
+    }
+    @case ('error') {
+      <div class="state state--error">
+        <span class="state__icon" aria-hidden="true">⚠</span>
+        <p>{{ error() }}</p>
+        <button type="button" class="btn btn--primary" (click)="retry()">Retry</button>
+      </div>
+    }
+    @case ('empty') {
+      <div class="state state--empty">
+        <span class="state__icon" aria-hidden="true">🗒</span>
+        <p>No authors found.</p>
+      </div>
+    }
+    @default {
+      <ul class="author-list">
+        @for (entry of authors(); track entry.author) {
+          <li class="author-card">
+            <button
+              type="button"
+              class="author-card__header"
+              (click)="toggle(entry.author)"
+              [attr.aria-expanded]="expandedAuthor() === entry.author"
+            >
+              <span class="author-card__name">{{ entry.author }}</span>
+              <span class="author-card__count">{{ entry.count }} quotes</span>
+            </button>
+
+            @if (expandedAuthor() === entry.author) {
+              <ul class="author-card__quotes">
+                @for (text of entry.quotes; track text) {
+                  <li>{{ text }}</li>
+                }
+              </ul>
+            }
+          </li>
+        }
+      </ul>
+    }
+  }
+</section>

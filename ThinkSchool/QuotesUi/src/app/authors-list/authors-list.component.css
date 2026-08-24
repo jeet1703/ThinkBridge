@@ -16,9 +16,9 @@
   --quotes-radius: 0.75rem;
 }
 
-.quotes {
+.authors {
   max-width: 640px;
-  margin: 2rem auto;
+  margin: 1.5rem auto;
   padding: 1.5rem;
   border-radius: 1rem;
   background: var(--quotes-bg);
@@ -28,40 +28,23 @@
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
-.quotes__header {
+.authors__header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 1.25rem;
 }
 
-.quotes__header h2 {
+.authors__header h2 {
   margin: 0;
   font-size: 1.375rem;
   letter-spacing: -0.01em;
   color: var(--quotes-rose);
 }
 
-.quotes__count {
+.authors__count {
   font-size: 0.8rem;
   color: var(--quotes-text-muted);
-}
-
-.search-input {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 1rem;
-  padding: 0.55rem 0.9rem;
-  border: 1px solid var(--quotes-blue);
-  border-radius: 999px;
-  background: var(--quotes-bg);
-  color: var(--quotes-text);
-  font-size: 0.9rem;
-}
-
-.search-input:focus {
-  outline: 2px solid var(--quotes-mauve);
-  outline-offset: 1px;
 }
 
 /* --- states --- */
@@ -114,66 +97,61 @@
   }
 }
 
-/* --- list --- */
+/* --- author list --- */
 
-.quote-list {
+.author-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem;
+  max-height: 26rem;
+  overflow-y: auto;
 }
 
-.quote-card {
-  padding: 1rem 1.25rem;
+.author-card {
+  flex-shrink: 0;
   border: 1px solid var(--quotes-border);
   border-radius: var(--quotes-radius);
   background: var(--quotes-surface);
   border-left: 3px solid var(--quotes-accent);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
 }
 
-.quote-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(162, 144, 183, 0.25);
-}
-
-.quote-text {
-  margin: 0 0 0.375rem;
-  line-height: 1.5;
-}
-
-.quote-text::before {
-  content: '\201C';
-}
-
-.quote-text::after {
-  content: '\201D';
-}
-
-.quote-author {
-  margin: 0;
-  color: var(--quotes-text-muted);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-/* --- pagination --- */
-
-.pagination {
+.author-card__header {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  margin-top: 1.5rem;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
 }
 
-.pagination__status {
+.author-card__name {
+  font-weight: 700;
+}
+
+.author-card__count {
+  font-size: 0.8rem;
   color: var(--quotes-text-muted);
+}
+
+.author-card__quotes {
+  margin: 0;
+  padding: 0 1rem 0.85rem 1rem;
+  list-style: disc;
+  list-style-position: inside;
   font-size: 0.875rem;
-  min-width: 7rem;
-  text-align: center;
+  color: var(--quotes-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 /* --- buttons --- */
@@ -187,24 +165,10 @@
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease, opacity 0.15s ease;
-}
-
-.btn:hover:not(:disabled) {
-  background: var(--quotes-surface);
-}
-
-.btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .btn--primary {
   background: var(--quotes-accent);
   color: var(--quotes-accent-contrast);
   border-color: transparent;
-}
-
-.btn--primary:hover:not(:disabled) {
-  opacity: 0.9;
 }

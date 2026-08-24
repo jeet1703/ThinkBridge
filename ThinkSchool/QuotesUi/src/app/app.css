@@ -13,3 +13,28 @@ main > h1 {
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
+
+.tabs {
+  max-width: 640px;
+  margin: 1rem auto 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tabs__btn {
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid #b0cde6;
+  background: #fffdf6;
+  color: #4a3f4a;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tabs__btn--active {
+  background: #a290b7;
+  color: #fffdf6;
+  border-color: transparent;
+}

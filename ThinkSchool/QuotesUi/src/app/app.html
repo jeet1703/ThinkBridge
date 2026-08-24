@@ -1,4 +1,31 @@
 <main>
   <h1>{{ title() }}</h1>
-  <app-quotes-list />
+
+  <nav class="tabs">
+    <button
+      type="button"
+      class="tabs__btn"
+      [class.tabs__btn--active]="activeTab() === 'quotes'"
+      (click)="selectTab('quotes')"
+    >
+      Quotes
+    </button>
+    <button
+      type="button"
+      class="tabs__btn"
+      [class.tabs__btn--active]="activeTab() === 'authors'"
+      (click)="selectTab('authors')"
+    >
+      Authors
+    </button>
+  </nav>
+
+  @switch (activeTab()) {
+    @case ('authors') {
+      <app-authors-list />
+    }
+    @default {
+      <app-quotes-list />
+    }
+  }
 </main>

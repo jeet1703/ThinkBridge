@@ -24,6 +24,7 @@ public static class QuoteEndpointExtensions
         group.MapGet("/", async (
             int page,
             int size,
+            string? search,
             IQuoteRepository repository,
             ILogger<QuoteLogger> logger,
             CancellationToken cancellationToken) =>
@@ -42,17 +43,20 @@ public static class QuoteEndpointExtensions
             }
 
             logger.LogInformation(
-                "Fetching quotes page {Page} with size {Size}",
+                "Fetching quotes page {Page} with size {Size} (search: {Search})",
                 page,
-                size);
+                size,
+                search);
 
             using var activity = ActivitySource.StartActivity("quotes.list");
             activity?.SetTag("quotes.page", page);
             activity?.SetTag("quotes.size", size);
+            activity?.SetTag("quotes.search", search);
 
             var result = await repository.GetPagedAsync(
                 page,
                 size,
+                search,
                 cancellationToken);
 
             return Results.Ok(new

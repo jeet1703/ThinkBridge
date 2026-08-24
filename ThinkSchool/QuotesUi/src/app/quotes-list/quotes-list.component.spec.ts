@@ -123,4 +123,42 @@ describe('QuotesListComponent', () => {
 
     expect(component.totalPages()).toBe(5); // ceil(95 / 20)
   });
+
+  it('debounces search input, resets to page 1, and sends a real `search` param', async () => {
+    const fixture = TestBed.createComponent(QuotesListComponent);
+    const el: HTMLElement = fixture.nativeElement;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // initial load
+    httpMock
+      .expectOne((r) => r.url === '/api/quotes')
+      .flush({ page: 1, size: 10, total: 3, items: [{ id: 1, author: 'A', text: 'x', createdByUserId: null }] } satisfies QuotesResponse);
+    await fixture.whenStable();
+
+    const input = el.querySelector('.search-input') as HTMLInputElement;
+    input.value = 'Marcus';
+    input.dispatchEvent(new Event('input'));
+
+    // no request until the debounce elapses
+    httpMock.expectNone((r) => r.url === '/api/quotes' && r.params.has('search'));
+
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    await fixture.whenStable();
+
+    const req = httpMock.expectOne((r) => r.url === '/api/quotes' && r.params.has('search'));
+    expect(req.request.params.get('search')).toBe('Marcus');
+    expect(req.request.params.get('page')).toBe('1'); // reset even if a later page was active
+
+    req.flush({
+      page: 1,
+      size: 10,
+      total: 1,
+      items: [{ id: 42, author: 'Marcus Aurelius', text: 'You have power over your mind.', createdByUserId: null }]
+    } satisfies QuotesResponse);
+    await fixture.whenStable();
+
+    expect(el.textContent).toContain('Marcus Aurelius');
+  });
 });

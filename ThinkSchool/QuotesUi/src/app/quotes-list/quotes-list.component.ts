@@ -32,6 +32,10 @@ export class QuotesListComponent {
   protected readonly page = signal(1);
   protected readonly pageSize = signal(10);
   protected readonly total = signal(0);
+  /** Committed search term (debounced from the input) — a real `search` query param on the real API. */
+  protected readonly searchTerm = signal('');
+
+  private searchDebounceId: ReturnType<typeof setTimeout> | undefined;
 
   /** Derived from two signals: total + pageSize. */
   protected readonly totalPages = computed(() =>
@@ -46,17 +50,23 @@ export class QuotesListComponent {
     return 'success';
   });
 
+  /** Derived from the quotes + searchTerm signals — copy for the empty state. */
+  protected readonly emptyMessage = computed(() =>
+    this.searchTerm() ? `No quotes match "${this.searchTerm()}".` : 'No quotes found.'
+  );
+
   constructor() {
-    // Re-fetch whenever the requested page (or page size) changes.
+    // Re-fetch whenever the requested page, page size, or search term changes.
     effect(() => {
       const page = this.page();
       const size = this.pageSize();
-      this.fetchQuotes(page, size);
+      const search = this.searchTerm();
+      this.fetchQuotes(page, size, search);
     });
   }
 
   protected retry(): void {
-    this.fetchQuotes(this.page(), this.pageSize());
+    this.fetchQuotes(this.page(), this.pageSize(), this.searchTerm());
   }
 
   protected nextPage(): void {
@@ -71,11 +81,22 @@ export class QuotesListComponent {
     }
   }
 
-  private fetchQuotes(page: number, size: number): void {
+  protected onSearchInput(value: string): void {
+    clearTimeout(this.searchDebounceId);
+    this.searchDebounceId = setTimeout(() => {
+      this.page.set(1);
+      this.searchTerm.set(value.trim());
+    }, 300);
+  }
+
+  private fetchQuotes(page: number, size: number, search: string): void {
     this.loading.set(true);
     this.error.set(null);
 
-    const params = new HttpParams().set('page', page).set('size', size);
+    let params = new HttpParams().set('page', page).set('size', size);
+    if (search) {
+      params = params.set('search', search);
+    }
 
     this.http.get<QuotesResponse>('/api/quotes', { params }).subscribe({
       next: (response) => {

@@ -6,6 +6,14 @@
     }
   </header>
 
+  <input
+    type="search"
+    class="search-input"
+    placeholder="Search by author or text…"
+    aria-label="Search quotes"
+    (input)="onSearchInput($any($event.target).value)"
+  />
+
   @switch (viewState()) {
     @case ('loading') {
       <div class="state state--loading">
@@ -23,7 +31,7 @@
     @case ('empty') {
       <div class="state state--empty">
         <span class="state__icon" aria-hidden="true">🗒</span>
-        <p>No quotes found.</p>
+        <p>{{ emptyMessage() }}</p>
       </div>
     }
     @default {

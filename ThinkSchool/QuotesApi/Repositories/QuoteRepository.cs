@@ -16,11 +16,20 @@ public class QuoteRepository : IQuoteRepository
     public async Task<(IReadOnlyList<Quote> Items, int Total)> GetPagedAsync(
         int page,
         int size,
+        string? search,
         CancellationToken cancellationToken)
     {
-        var query = _db.Quotes
-            .AsNoTracking()
-            .OrderBy(q => q.Id);
+        var query = _db.Quotes.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim();
+            query = query.Where(q =>
+                EF.Functions.Like(q.Author, $"%{term}%") ||
+                EF.Functions.Like(q.Text, $"%{term}%"));
+        }
+
+        query = query.OrderBy(q => q.Id);
 
         var total = await query.CountAsync(cancellationToken);
 
