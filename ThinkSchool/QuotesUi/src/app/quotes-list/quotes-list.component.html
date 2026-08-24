@@ -1,34 +1,60 @@
 <section class="quotes">
-  <h2>Quotes</h2>
+  <header class="quotes__header">
+    <h2>Quotes</h2>
+    @if (viewState() === 'success') {
+      <span class="quotes__count">{{ total() }} total</span>
+    }
+  </header>
 
   @switch (viewState()) {
     @case ('loading') {
-      <p class="state state--loading">Loading quotes…</p>
+      <div class="state state--loading">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading quotes…</p>
+      </div>
     }
     @case ('error') {
       <div class="state state--error">
+        <span class="state__icon" aria-hidden="true">⚠</span>
         <p>{{ error() }}</p>
-        <button type="button" (click)="retry()">Retry</button>
+        <button type="button" class="btn btn--primary" (click)="retry()">Retry</button>
       </div>
     }
     @case ('empty') {
-      <p class="state state--empty">No quotes found.</p>
+      <div class="state state--empty">
+        <span class="state__icon" aria-hidden="true">🗒</span>
+        <p>No quotes found.</p>
+      </div>
     }
     @default {
       <ul class="quote-list">
         @for (quote of quotes(); track quote.id) {
-          <li class="quote-item">
-            <p class="quote-text">"{{ quote.text }}"</p>
+          <li class="quote-card">
+            <p class="quote-text">{{ quote.text }}</p>
             <p class="quote-author">— {{ quote.author }}</p>
           </li>
         }
       </ul>
 
-      <div class="pagination">
-        <button type="button" (click)="previousPage()" [disabled]="page() <= 1">Previous</button>
-        <span>Page {{ page() }} of {{ totalPages() }}</span>
-        <button type="button" (click)="nextPage()" [disabled]="page() >= totalPages()">Next</button>
-      </div>
+      <nav class="pagination" aria-label="Quotes pagination">
+        <button
+          type="button"
+          class="btn"
+          (click)="previousPage()"
+          [disabled]="page() <= 1"
+        >
+          ← Previous
+        </button>
+        <span class="pagination__status">Page {{ page() }} of {{ totalPages() }}</span>
+        <button
+          type="button"
+          class="btn"
+          (click)="nextPage()"
+          [disabled]="page() >= totalPages()"
+        >
+          Next →
+        </button>
+      </nav>
     }
   }
 </section>

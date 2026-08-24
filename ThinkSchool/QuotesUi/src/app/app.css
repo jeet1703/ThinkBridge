@@ -1,0 +1,15 @@
+main {
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+main > h1 {
+  max-width: 640px;
+  margin: 1.5rem auto 0;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #946d6d;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}

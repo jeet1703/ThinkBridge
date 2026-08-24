@@ -1,53 +1,193 @@
+:host {
+  --quotes-cream: #fdf4d2;
+  --quotes-blue: #b0cde6;
+  --quotes-mauve: #a290b7;
+  --quotes-rose: #946d6d;
+
+  --quotes-bg: #fffdf6;
+  --quotes-surface: rgba(176, 205, 230, 0.28);
+  --quotes-border: rgba(162, 144, 183, 0.35);
+  --quotes-text: #4a3f4a;
+  --quotes-text-muted: var(--quotes-rose);
+  --quotes-accent: var(--quotes-mauve);
+  --quotes-accent-contrast: #fffdf6;
+  --quotes-error-bg: rgba(148, 109, 109, 0.14);
+  --quotes-error-text: #6f4646;
+  --quotes-radius: 0.75rem;
+}
+
 .quotes {
   max-width: 640px;
   margin: 2rem auto;
-  font-family: system-ui, sans-serif;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--quotes-bg);
+  border: 1px solid var(--quotes-border);
+  box-shadow: 0 8px 24px rgba(162, 144, 183, 0.15);
+  color: var(--quotes-text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
+.quotes__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.quotes__header h2 {
+  margin: 0;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
+  color: var(--quotes-rose);
+}
+
+.quotes__count {
+  font-size: 0.8rem;
+  color: var(--quotes-text-muted);
+}
+
+/* --- states --- */
+
 .state {
-  padding: 1rem;
-  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1.5rem;
+  border-radius: var(--quotes-radius);
+  text-align: center;
+  color: var(--quotes-text-muted);
 }
 
 .state--loading {
-  color: #666;
+  background: var(--quotes-surface);
 }
 
 .state--error {
-  background: #fdecea;
-  color: #611a15;
+  background: var(--quotes-error-bg);
+  color: var(--quotes-error-text);
 }
 
 .state--empty {
-  color: #666;
-  font-style: italic;
+  background: var(--quotes-cream);
 }
+
+.state p {
+  margin: 0;
+}
+
+.state__icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 3px solid var(--quotes-blue);
+  border-top-color: var(--quotes-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- list --- */
 
 .quote-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.quote-item {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #eee;
+.quote-card {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--quotes-border);
+  border-radius: var(--quotes-radius);
+  background: var(--quotes-surface);
+  border-left: 3px solid var(--quotes-accent);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quote-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(162, 144, 183, 0.25);
 }
 
 .quote-text {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.375rem;
+  line-height: 1.5;
+}
+
+.quote-text::before {
+  content: '\201C';
+}
+
+.quote-text::after {
+  content: '\201D';
 }
 
 .quote-author {
   margin: 0;
-  color: #555;
-  font-size: 0.9rem;
+  color: var(--quotes-text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
 }
+
+/* --- pagination --- */
 
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.pagination__status {
+  color: var(--quotes-text-muted);
+  font-size: 0.875rem;
+  min-width: 7rem;
+  text-align: center;
+}
+
+/* --- buttons --- */
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--quotes-blue);
+  background: var(--quotes-bg);
+  color: var(--quotes-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--quotes-surface);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--quotes-accent);
+  color: var(--quotes-accent-contrast);
+  border-color: transparent;
+}
+
+.btn--primary:hover:not(:disabled) {
+  opacity: 0.9;
 }

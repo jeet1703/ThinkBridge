@@ -43,7 +43,7 @@ describe('QuotesListComponent', () => {
     req.flush(response);
     await fixture.whenStable();
 
-    const items = el.querySelectorAll('.quote-item');
+    const items = el.querySelectorAll('.quote-card');
     expect(items.length).toBe(2);
     expect(el.textContent).toContain('Marcus Aurelius');
     // computed(): totalPages derived from total (25) + pageSize (10) signals -> ceil(25/10) = 3
@@ -63,7 +63,7 @@ describe('QuotesListComponent', () => {
     await fixture.whenStable();
 
     expect(el.querySelector('.state--empty')).toBeTruthy();
-    expect(el.querySelector('.quote-item')).toBeFalsy();
+    expect(el.querySelector('.quote-card')).toBeFalsy();
   });
 
   it('renders the error state on a failed request, and recovers on retry', async () => {
@@ -94,7 +94,7 @@ describe('QuotesListComponent', () => {
       } satisfies QuotesResponse);
     await fixture.whenStable();
 
-    expect(el.querySelector('.quote-item')).toBeTruthy();
+    expect(el.querySelector('.quote-card')).toBeTruthy();
     expect(el.querySelector('.state--error')).toBeFalsy();
   });
 
