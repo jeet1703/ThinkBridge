@@ -18,11 +18,22 @@
     >
       Authors
     </button>
+    <button
+      type="button"
+      class="tabs__btn"
+      [class.tabs__btn--active]="activeTab() === 'explorer'"
+      (click)="selectTab('explorer')"
+    >
+      Explorer
+    </button>
   </nav>
 
   @switch (activeTab()) {
     @case ('authors') {
       <app-authors-list />
+    }
+    @case ('explorer') {
+      <app-quotes-explorer />
     }
     @default {
       <app-quotes-list />

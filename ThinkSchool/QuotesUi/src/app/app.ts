@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { QuotesListComponent } from './quotes-list/quotes-list.component';
 import { AuthorsListComponent } from './authors-list/authors-list.component';
+import { QuotesExplorerComponent } from './quotes-explorer/quotes-explorer.component';
 
-type Tab = 'quotes' | 'authors';
+type Tab = 'quotes' | 'authors' | 'explorer';
 
 @Component({
   selector: 'app-root',
-  imports: [QuotesListComponent, AuthorsListComponent],
+  imports: [QuotesListComponent, AuthorsListComponent, QuotesExplorerComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

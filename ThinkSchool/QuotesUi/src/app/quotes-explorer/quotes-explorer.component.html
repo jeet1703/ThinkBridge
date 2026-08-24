@@ -1,0 +1,82 @@
+<section class="explorer">
+  <div class="explorer__list">
+    <h2>Quotes</h2>
+
+    @switch (listViewState()) {
+      @case ('loading') {
+        <div class="state state--loading">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Loading quotes…</p>
+        </div>
+      }
+      @case ('error') {
+        <div class="state state--error">
+          <span class="state__icon" aria-hidden="true">⚠</span>
+          <p>{{ listError() }}</p>
+          <button type="button" class="btn btn--primary" (click)="retryList()">Retry</button>
+        </div>
+      }
+      @case ('empty') {
+        <div class="state state--empty">
+          <span class="state__icon" aria-hidden="true">🗒</span>
+          <p>No quotes found.</p>
+        </div>
+      }
+      @default {
+        <ul class="quote-list">
+          @for (quote of quotes(); track quote.id) {
+            <li
+              class="quote-card"
+              [class.quote-card--selected]="selectedId() === quote.id"
+              role="button"
+              tabindex="0"
+              (click)="select(quote.id)"
+              (keydown.enter)="select(quote.id)"
+            >
+              <p class="quote-text">{{ quote.text }}</p>
+              <p class="quote-author">— {{ quote.author }}</p>
+            </li>
+          }
+        </ul>
+      }
+    }
+  </div>
+
+  <div class="explorer__detail">
+    <h2>Details</h2>
+
+    @switch (detailViewState()) {
+      @case ('idle') {
+        <p class="state state--empty">Select a quote to see its details.</p>
+      }
+      @case ('loading') {
+        <div class="state state--loading">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Loading details…</p>
+        </div>
+      }
+      @case ('error') {
+        <div class="state state--error">
+          <span class="state__icon" aria-hidden="true">⚠</span>
+          <p>{{ detailError() }}</p>
+          <button type="button" class="btn btn--primary" (click)="retryDetail()">Retry</button>
+        </div>
+      }
+      @default {
+        @if (selectedQuote(); as q) {
+          <dl class="detail">
+            <dt>Text</dt>
+            <dd class="detail__text">"{{ q.text }}"</dd>
+
+            <dt>Author</dt>
+            <dd>{{ q.author }}</dd>
+
+            <dt>ID</dt>
+            <dd>{{ q.id }}</dd>
+          </dl>
+          <button type="button" class="btn" (click)="closeDetail()">Close</button>
+        }
+      }
+    }
+  </div>
+</section>
