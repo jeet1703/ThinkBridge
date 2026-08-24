@@ -66,6 +66,12 @@ export class QuotesExplorerComponent {
   }
 
   protected select(id: number): void {
+    // Reset detail state synchronously — loadDetail() (triggered by the effect below)
+    // only runs on the next microtask, so without this, the OLD quote's detail stays on
+    // screen — now mislabeled under the newly-selected id — until the fetch catches up.
+    this.selectedQuote.set(null);
+    this.detailError.set(null);
+    this.detailLoading.set(true);
     this.selectedId.set(id);
   }
 

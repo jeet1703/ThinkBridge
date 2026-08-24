@@ -165,4 +165,34 @@ describe('QuotesExplorerComponent', () => {
     expect(detailText).toContain('Seneca');
     expect(detailText).not.toContain('Marcus Aurelius');
   });
+
+  it('does not flash the previous quote\'s stale detail when a new quote is selected', async () => {
+    const fixture = TestBed.createComponent(QuotesExplorerComponent);
+    const el: HTMLElement = fixture.nativeElement;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    httpMock.expectOne((r) => r.url === '/api/quotes').flush(LIST_RESPONSE);
+    await fixture.whenStable();
+
+    const cards = el.querySelectorAll('.quote-card');
+    (cards[0] as HTMLLIElement).click();
+    await fixture.whenStable();
+    httpMock.expectOne('/api/quotes/1').flush({ id: 1, author: 'Marcus Aurelius', text: 'You have power over your mind.' } satisfies Quote);
+    await fixture.whenStable();
+    expect(el.querySelector('.detail')?.textContent).toContain('Marcus Aurelius');
+
+    // Click quote B, then force exactly one render pass — no waiting for the HTTP
+    // response. select() must clear quote A's stale detail (and flip to loading)
+    // synchronously, rather than leaving that to loadDetail() (only reachable once
+    // the effect it's triggered from, and then the HTTP response, both come back).
+    (cards[1] as HTMLLIElement).click();
+    fixture.detectChanges();
+    const beforeResponseArrives = el.querySelector('.detail')?.textContent ?? '';
+    expect(beforeResponseArrives).not.toContain('Marcus Aurelius');
+
+    httpMock.expectOne('/api/quotes/2').flush({ id: 2, author: 'Seneca', text: 'It is not that we have a short time to live.' } satisfies Quote);
+    await fixture.whenStable();
+    expect(el.querySelector('.detail')?.textContent).toContain('Seneca');
+  });
 });
