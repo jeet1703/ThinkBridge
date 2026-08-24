@@ -188,6 +188,28 @@
   cursor: pointer;
 }
 
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- pagination --- */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pagination__status {
+  color: var(--quotes-text-muted);
+  font-size: 0.8rem;
+  min-width: 6rem;
+  text-align: center;
+}
+
 .btn--primary {
   background: var(--quotes-accent);
   color: var(--quotes-accent-contrast);

@@ -195,4 +195,37 @@ describe('QuotesExplorerComponent', () => {
     await fixture.whenStable();
     expect(el.querySelector('.detail')?.textContent).toContain('Seneca');
   });
+
+  it('paginates the list with real page/size params and closes any open detail on page change', async () => {
+    const fixture = TestBed.createComponent(QuotesExplorerComponent);
+    const el: HTMLElement = fixture.nativeElement;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // total=12, size=5 -> 3 pages, so Next is enabled after page 1 loads.
+    httpMock.expectOne((r) => r.url === '/api/quotes').flush({ page: 1, size: 5, total: 12, items: LIST_RESPONSE.items } satisfies QuotesListResponse);
+    await fixture.whenStable();
+
+    expect(el.querySelector('.pagination__status')?.textContent).toContain('Page 1 of 3');
+
+    // Open a detail panel before paging.
+    (el.querySelectorAll('.quote-card')[0] as HTMLLIElement).click();
+    await fixture.whenStable();
+    httpMock.expectOne('/api/quotes/1').flush({ id: 1, author: 'Marcus Aurelius', text: 'You have power over your mind.' } satisfies Quote);
+    await fixture.whenStable();
+    expect(el.querySelector('.detail')).toBeTruthy();
+
+    (el.querySelector('.pagination button:not([disabled])') as HTMLButtonElement).click(); // Next
+    await fixture.whenStable();
+
+    const req2 = httpMock.expectOne((r) => r.url === '/api/quotes');
+    expect(req2.request.params.get('page')).toBe('2');
+    expect(req2.request.params.get('size')).toBe('5');
+    req2.flush({ page: 2, size: 5, total: 12, items: [{ id: 3, author: 'Epictetus', text: 'It is not events that disturb people.' }] } satisfies QuotesListResponse);
+    await fixture.whenStable();
+
+    expect(el.querySelector('.pagination__status')?.textContent).toContain('Page 2 of 3');
+    // Detail panel must close — the previously-selected quote isn't necessarily on this page.
+    expect(el.querySelector('.detail')).toBeFalsy();
+  });
 });

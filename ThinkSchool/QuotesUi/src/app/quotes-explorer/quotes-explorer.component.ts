@@ -16,6 +16,9 @@ export class QuotesExplorerComponent {
   protected readonly quotes = signal<Quote[]>([]);
   protected readonly listLoading = signal(true);
   protected readonly listError = signal<string | null>(null);
+  protected readonly page = signal(1);
+  protected readonly pageSize = signal(5);
+  protected readonly total = signal(0);
 
   // --- detail state ---
   protected readonly selectedId = signal<number | null>(null);
@@ -26,6 +29,11 @@ export class QuotesExplorerComponent {
   /** Monotonic counters used purely to detect + discard stale responses (not rendered, so plain fields, not signals). */
   private listRequestSeq = 0;
   private detailRequestSeq = 0;
+
+  /** Derived from two signals: total + pageSize. */
+  protected readonly totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.total() / this.pageSize()))
+  );
 
   protected readonly listViewState = computed<'loading' | 'error' | 'empty' | 'success'>(() => {
     if (this.listLoading()) return 'loading';
@@ -42,8 +50,13 @@ export class QuotesExplorerComponent {
   });
 
   constructor() {
-    // Fixed page=1&size=5 per the exercise — a one-off fetch, no reactive dependency to key an effect() off.
-    this.loadList();
+    // Re-fetch whenever the requested page (or page size) changes — starts at
+    // page=1&size=5, per the exercise, but is no longer pinned to just that call.
+    effect(() => {
+      const page = this.page();
+      const size = this.pageSize();
+      this.loadList(page, size);
+    });
 
     // The detail fetch DOES need to react to selectedId changing (a new quote clicked).
     effect(() => {
@@ -55,13 +68,27 @@ export class QuotesExplorerComponent {
   }
 
   protected retryList(): void {
-    this.loadList();
+    this.loadList(this.page(), this.pageSize());
   }
 
   protected retryDetail(): void {
     const id = this.selectedId();
     if (id !== null) {
       this.loadDetail(id);
+    }
+  }
+
+  protected nextPage(): void {
+    if (this.page() < this.totalPages()) {
+      this.closeDetail();
+      this.page.update((p) => p + 1);
+    }
+  }
+
+  protected previousPage(): void {
+    if (this.page() > 1) {
+      this.closeDetail();
+      this.page.update((p) => p - 1);
     }
   }
 
@@ -81,17 +108,18 @@ export class QuotesExplorerComponent {
     this.detailError.set(null);
   }
 
-  private loadList(): void {
+  private loadList(page: number, size: number): void {
     // Tag this dispatch; if a newer one starts before this resolves, its response is discarded on arrival.
     const requestId = ++this.listRequestSeq;
 
     this.listLoading.set(true);
     this.listError.set(null);
 
-    this.quotesApi.getQuotes(1, 5).subscribe({
+    this.quotesApi.getQuotes(page, size).subscribe({
       next: (response) => {
         if (requestId !== this.listRequestSeq) return; // a newer list request superseded this one
         this.quotes.set(response.items);
+        this.total.set(response.total);
         this.listLoading.set(false);
       },
       error: (err: HttpErrorResponse) => {

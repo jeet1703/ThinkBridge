@@ -38,6 +38,12 @@
             </li>
           }
         </ul>
+
+        <nav class="pagination" aria-label="Quotes pagination">
+          <button type="button" class="btn" (click)="previousPage()" [disabled]="page() <= 1">← Previous</button>
+          <span class="pagination__status">Page {{ page() }} of {{ totalPages() }}</span>
+          <button type="button" class="btn" (click)="nextPage()" [disabled]="page() >= totalPages()">Next →</button>
+        </nav>
       }
     }
   </div>
