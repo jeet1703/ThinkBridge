@@ -1,0 +1,41 @@
+<div class="backdrop" (click)="onClose()"></div>
+
+<aside class="panel" role="dialog" aria-label="Quote details">
+  <header class="panel__header">
+    <h3>Quote details</h3>
+    <button type="button" class="panel__close" (click)="onClose()" aria-label="Close">✕</button>
+  </header>
+
+  @switch (viewState()) {
+    @case ('loading') {
+      <div class="state state--loading">
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Loading…</p>
+      </div>
+    }
+    @case ('error') {
+      <div class="state state--error">
+        <span class="state__icon" aria-hidden="true">⚠</span>
+        <p>{{ error() }}</p>
+        <button type="button" class="btn btn--primary" (click)="retry()">Retry</button>
+      </div>
+    }
+    @default {
+      @if (quote(); as q) {
+        <dl class="detail">
+          <dt>Text</dt>
+          <dd class="detail__text">"{{ q.text }}"</dd>
+
+          <dt>Author</dt>
+          <dd>{{ q.author }}</dd>
+
+          <dt>ID</dt>
+          <dd>{{ q.id }}</dd>
+
+          <dt>Created by user</dt>
+          <dd>{{ q.createdByUserId ?? '— (system-seeded)' }}</dd>
+        </dl>
+      }
+    }
+  }
+</aside>

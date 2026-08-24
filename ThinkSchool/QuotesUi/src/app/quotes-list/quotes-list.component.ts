@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { QuoteDetailComponent } from '../quote-detail/quote-detail.component';
 
 /** Shape of a single quote, matching QuotesApi's Quote model. */
 export interface Quote {
@@ -20,6 +21,7 @@ export interface QuotesResponse {
 @Component({
   selector: 'app-quotes-list',
   standalone: true,
+  imports: [QuoteDetailComponent],
   templateUrl: './quotes-list.component.html',
   styleUrl: './quotes-list.component.css'
 })
@@ -27,6 +29,8 @@ export class QuotesListComponent {
   private readonly http = inject(HttpClient);
 
   protected readonly quotes = signal<Quote[]>([]);
+  /** Which quote's detail panel is open, if any — set by clicking a quote card. */
+  protected readonly selectedQuoteId = signal<number | null>(null);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
   protected readonly page = signal(1);

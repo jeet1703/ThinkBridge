@@ -161,4 +161,40 @@ describe('QuotesListComponent', () => {
 
     expect(el.textContent).toContain('Marcus Aurelius');
   });
+
+  it('opens the detail panel on click and fetches the real GET /api/quotes/{id}', async () => {
+    const fixture = TestBed.createComponent(QuotesListComponent);
+    const el: HTMLElement = fixture.nativeElement;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    httpMock
+      .expectOne((r) => r.url === '/api/quotes')
+      .flush({
+        page: 1,
+        size: 10,
+        total: 1,
+        items: [{ id: 42, author: 'Marcus Aurelius', text: 'You have power over your mind.', createdByUserId: null }]
+      } satisfies QuotesResponse);
+    await fixture.whenStable();
+
+    expect(el.querySelector('.panel')).toBeFalsy();
+
+    (el.querySelector('.quote-card') as HTMLLIElement).click();
+    await fixture.whenStable();
+
+    const detailReq = httpMock.expectOne('/api/quotes/42');
+    detailReq.flush({ id: 42, author: 'Marcus Aurelius', text: 'You have power over your mind.', createdByUserId: null });
+    await fixture.whenStable();
+
+    const panel = el.querySelector('.panel');
+    expect(panel).toBeTruthy();
+    expect(panel?.textContent).toContain('Marcus Aurelius');
+
+    (el.querySelector('.panel__close') as HTMLButtonElement).click();
+    await fixture.whenStable();
+
+    expect(el.querySelector('.panel')).toBeFalsy();
+  });
 });

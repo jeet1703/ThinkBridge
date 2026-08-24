@@ -37,7 +37,13 @@
     @default {
       <ul class="quote-list">
         @for (quote of quotes(); track quote.id) {
-          <li class="quote-card">
+          <li
+            class="quote-card"
+            role="button"
+            tabindex="0"
+            (click)="selectedQuoteId.set(quote.id)"
+            (keydown.enter)="selectedQuoteId.set(quote.id)"
+          >
             <p class="quote-text">{{ quote.text }}</p>
             <p class="quote-author">— {{ quote.author }}</p>
           </li>
@@ -64,5 +70,9 @@
         </button>
       </nav>
     }
+  }
+
+  @if (selectedQuoteId(); as id) {
+    <app-quote-detail [quoteId]="id" (close)="selectedQuoteId.set(null)" />
   }
 </section>

@@ -131,7 +131,13 @@
   border-radius: var(--quotes-radius);
   background: var(--quotes-surface);
   border-left: 3px solid var(--quotes-accent);
+  cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quote-card:focus-visible {
+  outline: 2px solid var(--quotes-mauve);
+  outline-offset: 2px;
 }
 
 .quote-card:hover {
