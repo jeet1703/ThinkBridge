@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { AuthorsListComponent, AuthorSummary } from './authors-list.component';
+import { errorMappingInterceptor } from '../core/interceptors/error-mapping.interceptor';
 
 describe('AuthorsListComponent', () => {
   let httpMock: HttpTestingController;
@@ -9,7 +10,7 @@ describe('AuthorsListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AuthorsListComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [provideHttpClient(withInterceptors([errorMappingInterceptor])), provideHttpClientTesting()]
     }).compileComponents();
 
     httpMock = TestBed.inject(HttpTestingController);
@@ -55,6 +56,6 @@ describe('AuthorsListComponent', () => {
     httpMock.expectOne('/api/quotes/slow-authors').flush('boom', { status: 500, statusText: 'Server Error' });
     await fixture.whenStable();
 
-    expect(el.querySelector('.state--error')?.textContent).toContain('HTTP 500');
+    expect(el.querySelector('.state--error')?.textContent).toContain('Something went wrong on the server');
   });
 });

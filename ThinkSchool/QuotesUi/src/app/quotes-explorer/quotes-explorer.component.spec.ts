@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { QuotesExplorerComponent } from './quotes-explorer.component';
 import { Quote, QuotesListResponse } from './quotes-api.service';
+import { errorMappingInterceptor } from '../core/interceptors/error-mapping.interceptor';
 
 const LIST_RESPONSE: QuotesListResponse = {
   page: 1,
@@ -20,7 +21,7 @@ describe('QuotesExplorerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [QuotesExplorerComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [provideHttpClient(withInterceptors([errorMappingInterceptor])), provideHttpClientTesting()]
     }).compileComponents();
 
     httpMock = TestBed.inject(HttpTestingController);
@@ -73,7 +74,7 @@ describe('QuotesExplorerComponent', () => {
     httpMock.expectOne((r) => r.url === '/api/quotes').flush('boom', { status: 500, statusText: 'Server Error' });
     await fixture.whenStable();
 
-    expect(el.querySelector('.explorer__list .state--error')?.textContent).toContain('HTTP 500');
+    expect(el.querySelector('.explorer__list .state--error')?.textContent).toContain('Something went wrong on the server');
 
     (el.querySelector('.explorer__list .state--error button') as HTMLButtonElement).click();
     await fixture.whenStable();

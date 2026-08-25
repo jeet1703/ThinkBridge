@@ -42,6 +42,18 @@ public static class InfrastructureExtensions
         services.AddScoped<CreateQuoteRequestValidator>();
         services.AddScoped<RefreshTokenService>();
 
+        // Local-dev CORS: the Angular client's real-network characterization tests (and any
+        // direct HttpClient calls made outside the ng-serve dev-server proxy) are cross-origin
+        // from this API's perspective. Permissive by design — this API has no cookie-based
+        // auth (Bearer-token only), and this policy is only ever exercised in local development.
+        services.AddCors(options =>
+        {
+            options.AddPolicy("LocalDev", policy => policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+        });
+
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
         var jwtOptions = configuration.GetSection("Jwt").Get<JwtOptions>() ?? new JwtOptions();

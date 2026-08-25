@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { QuotesListComponent, QuotesResponse } from './quotes-list.component';
+import { errorMappingInterceptor } from '../core/interceptors/error-mapping.interceptor';
 
 describe('QuotesListComponent', () => {
   let httpMock: HttpTestingController;
@@ -9,7 +10,7 @@ describe('QuotesListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [QuotesListComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [provideHttpClient(withInterceptors([errorMappingInterceptor])), provideHttpClientTesting()]
     }).compileComponents();
 
     httpMock = TestBed.inject(HttpTestingController);
@@ -79,7 +80,7 @@ describe('QuotesListComponent', () => {
     await fixture.whenStable();
 
     const errorEl = el.querySelector('.state--error');
-    expect(errorEl?.textContent).toContain('HTTP 500');
+    expect(errorEl?.textContent).toContain('Something went wrong on the server');
 
     (errorEl?.querySelector('button') as HTMLButtonElement).click();
     await fixture.whenStable();

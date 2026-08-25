@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { CreateQuoteFormSignalsComponent, Quote } from './create-quote-form-signals.component';
+import { errorMappingInterceptor } from '../core/interceptors/error-mapping.interceptor';
 
 function type(el: HTMLInputElement | HTMLTextAreaElement, value: string): void {
   el.value = value;
@@ -14,7 +15,7 @@ describe('CreateQuoteFormSignalsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CreateQuoteFormSignalsComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [provideHttpClient(withInterceptors([errorMappingInterceptor])), provideHttpClientTesting()]
     }).compileComponents();
 
     httpMock = TestBed.inject(HttpTestingController);

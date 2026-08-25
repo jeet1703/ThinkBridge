@@ -1,7 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { FieldTree, FormField, TreeValidationResult, form, submit, validate } from '@angular/forms/signals';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { AppError } from '../core/quotes-api.models';
 
 /** The real model for POST /api/quotes — only the fields the API accepts. */
 export interface CreateQuoteModel {
@@ -15,20 +16,6 @@ export interface Quote {
   author: string;
   text: string;
   createdByUserId: number | null;
-}
-
-/** The real shape of a 400 response from POST /api/quotes (Results.ValidationProblem). */
-interface ValidationProblemBody {
-  errors?: Record<string, string[]>;
-}
-
-function isValidationProblemBody(body: unknown): body is Required<ValidationProblemBody> {
-  return (
-    typeof body === 'object' &&
-    body !== null &&
-    'errors' in body &&
-    typeof (body as ValidationProblemBody).errors === 'object'
-  );
 }
 
 @Component({
@@ -91,36 +78,33 @@ export class CreateQuoteFormSignalsComponent {
     this.quoteForm().reset({ author: '', text: '' });
   }
 
+  /**
+   * err arrives here as the typed AppError from errorMappingInterceptor (core/interceptors),
+   * not a raw HttpErrorResponse — no more re-parsing a ValidationProblem body by hand. Only
+   * kind: 'validation' still needs component-specific handling, to target this form's actual
+   * fields; everything else's message is already friendly and ready to show as-is.
+   */
   private async submitToApi(field: FieldTree<CreateQuoteModel>): Promise<TreeValidationResult> {
     try {
       const created = await firstValueFrom(this.http.post<Quote>('/api/quotes', field().value()));
       this.createdQuote.set(created);
       return undefined;
     } catch (err) {
-      if (!(err instanceof HttpErrorResponse)) {
-        this.submitError.set('Unexpected error.');
-        return undefined;
-      }
+      const appError = err as AppError;
 
-      if (err.status === 400 && isValidationProblemBody(err.error)) {
+      if (appError.kind === 'validation' && appError.fieldErrors) {
         const fieldsByName: Record<string, FieldTree<string>> = {
           author: this.quoteForm.author,
           text: this.quoteForm.text
         };
-        return Object.entries(err.error.errors).map(([key, messages]) => ({
+        return Object.entries(appError.fieldErrors).map(([key, messages]) => ({
           kind: 'server',
           message: messages[0],
           fieldTree: fieldsByName[key] ?? field
         }));
       }
 
-      this.submitError.set(
-        err.status === 401 || err.status === 403
-          ? "You don't have permission to add quotes. Sign in with an editor account and try again."
-          : err.status === 0
-            ? 'Could not reach the Quotes API. Is it running?'
-            : `Something went wrong creating the quote (HTTP ${err.status}). Please try again.`
-      );
+      this.submitError.set(appError.message ?? 'Unexpected error.');
       return undefined;
     }
   }

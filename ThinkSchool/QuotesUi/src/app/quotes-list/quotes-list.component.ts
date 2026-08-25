@@ -1,6 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { QuoteDetailComponent } from '../quote-detail/quote-detail.component';
+import { AppError } from '../core/quotes-api.models';
 
 /** Shape of a single quote, matching QuotesApi's Quote model. */
 export interface Quote {
@@ -108,12 +109,10 @@ export class QuotesListComponent {
         this.total.set(response.total);
         this.loading.set(false);
       },
-      error: (err: HttpErrorResponse) => {
-        this.error.set(
-          err.status === 0
-            ? 'Could not reach the Quotes API. Is it running?'
-            : `Failed to load quotes (HTTP ${err.status}).`
-        );
+      error: (err: AppError) => {
+        // The friendly message is already built by errorMappingInterceptor (core/interceptors) —
+        // no more per-component status-code branching needed.
+        this.error.set(err.message);
         this.loading.set(false);
       }
     });

@@ -47,6 +47,8 @@ app.Use(async (ctx, next) =>
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseCors("LocalDev");
+
 app.UseAuthentication();
 app.UseAuthorization();
 

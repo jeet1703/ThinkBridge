@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Quote, QuotesApiService } from './quotes-api.service';
+import { AppError } from '../core/quotes-api.models';
 
 @Component({
   selector: 'app-quotes-explorer',
@@ -122,13 +122,9 @@ export class QuotesExplorerComponent {
         this.total.set(response.total);
         this.listLoading.set(false);
       },
-      error: (err: HttpErrorResponse) => {
+      error: (err: AppError) => {
         if (requestId !== this.listRequestSeq) return;
-        this.listError.set(
-          err.status === 0
-            ? 'Could not reach the Quotes API. Is it running?'
-            : `Failed to load quotes (HTTP ${err.status}).`
-        );
+        this.listError.set(err.message);
         this.listLoading.set(false);
       }
     });
@@ -148,15 +144,11 @@ export class QuotesExplorerComponent {
         this.selectedQuote.set(response);
         this.detailLoading.set(false);
       },
-      error: (err: HttpErrorResponse) => {
+      error: (err: AppError) => {
         if (requestId !== this.detailRequestSeq) return;
-        this.detailError.set(
-          err.status === 404
-            ? `Quote ${id} was not found.`
-            : err.status === 0
-              ? 'Could not reach the Quotes API. Is it running?'
-              : `Failed to load quote (HTTP ${err.status}).`
-        );
+        // For a 404, err.message is already the real ProblemDetails.detail from the API
+        // ("Quote {id} was not found.") — errorMappingInterceptor extracts it directly.
+        this.detailError.set(err.message);
         this.detailLoading.set(false);
       }
     });

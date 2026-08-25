@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { AppError } from '../core/quotes-api.models';
 
 /** Shape of one entry from GET /api/quotes/slow-authors — a real, unauthenticated QuotesApi endpoint. */
 export interface AuthorSummary {
@@ -57,12 +58,8 @@ export class AuthorsListComponent {
         this.authors.set(response);
         this.loading.set(false);
       },
-      error: (err: HttpErrorResponse) => {
-        this.error.set(
-          err.status === 0
-            ? 'Could not reach the Quotes API. Is it running?'
-            : `Failed to load authors (HTTP ${err.status}).`
-        );
+      error: (err: AppError) => {
+        this.error.set(err.message);
         this.loading.set(false);
       }
     });

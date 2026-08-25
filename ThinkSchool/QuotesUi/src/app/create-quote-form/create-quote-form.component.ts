@@ -1,6 +1,7 @@
 import { afterNextRender, Component, ElementRef, inject, Injector, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { AppError } from '../core/quotes-api.models';
 
 /** The real request body for POST /api/quotes — only the fields the API accepts. */
 export interface CreateQuoteRequest {
@@ -14,11 +15,6 @@ export interface Quote {
   author: string;
   text: string;
   createdByUserId: number | null;
-}
-
-/** The real shape of a 400 response from POST /api/quotes (Results.ValidationProblem). */
-interface ValidationProblemBody {
-  errors?: Record<string, string[]>;
 }
 
 type CreateQuoteFormControls = {
@@ -119,7 +115,7 @@ export class CreateQuoteFormComponent {
         this.createdQuote.set(created);
         this.status.set('success');
       },
-      error: (err: HttpErrorResponse) => {
+      error: (err: AppError) => {
         this.form.enable();
         this.status.set('idle');
         this.handleSubmitError(err);
@@ -135,32 +131,22 @@ export class CreateQuoteFormComponent {
     this.form.reset({ author: '', text: '' });
   }
 
-  private handleSubmitError(err: HttpErrorResponse): void {
-    if (err.status === 400 && this.isValidationProblemBody(err.error)) {
-      this.applyServerFieldErrors(err.error.errors);
+  /**
+   * err is the typed AppError produced by errorMappingInterceptor (core/interceptors) — no more
+   * re-parsing a raw HttpErrorResponse's body here; that's centralized now. The 401/403/network/
+   * server messages below all come pre-built as err.message; only the per-field 400 case still
+   * needs component-specific handling (mapping fieldErrors onto this form's actual controls).
+   */
+  private handleSubmitError(err: AppError): void {
+    if (err.kind === 'validation' && err.fieldErrors) {
+      this.applyServerFieldErrors(err.fieldErrors);
       this.submitError.set('Please fix the highlighted field(s) below.');
       this.focusFirstInvalidField();
       return;
     }
 
-    if (err.status === 401 || err.status === 403) {
-      this.submitError.set("You don't have permission to add quotes. Sign in with an editor account and try again.");
-    } else if (err.status === 0) {
-      this.submitError.set('Could not reach the Quotes API. Is it running?');
-    } else {
-      this.submitError.set(`Something went wrong creating the quote (HTTP ${err.status}). Please try again.`);
-    }
-
+    this.submitError.set(err.message);
     this.focusSubmitError();
-  }
-
-  private isValidationProblemBody(body: unknown): body is Required<ValidationProblemBody> {
-    return (
-      typeof body === 'object' &&
-      body !== null &&
-      'errors' in body &&
-      typeof (body as ValidationProblemBody).errors === 'object'
-    );
   }
 
   private applyServerFieldErrors(errors: Record<string, string[]>): void {
