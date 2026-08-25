@@ -26,6 +26,14 @@
     >
       Explorer
     </button>
+    <button
+      type="button"
+      class="tabs__btn"
+      [class.tabs__btn--active]="activeTab() === 'add'"
+      (click)="selectTab('add')"
+    >
+      Add Quote
+    </button>
   </nav>
 
   @switch (activeTab()) {
@@ -34,6 +42,9 @@
     }
     @case ('explorer') {
       <app-quotes-explorer />
+    }
+    @case ('add') {
+      <app-create-quote-form />
     }
     @default {
       <app-quotes-list />
