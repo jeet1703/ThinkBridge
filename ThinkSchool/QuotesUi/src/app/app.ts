@@ -3,12 +3,19 @@ import { QuotesListComponent } from './quotes-list/quotes-list.component';
 import { AuthorsListComponent } from './authors-list/authors-list.component';
 import { QuotesExplorerComponent } from './quotes-explorer/quotes-explorer.component';
 import { CreateQuoteFormComponent } from './create-quote-form/create-quote-form.component';
+import { CreateQuoteFormSignalsComponent } from './create-quote-form-signals/create-quote-form-signals.component';
 
-type Tab = 'quotes' | 'authors' | 'explorer' | 'add';
+type Tab = 'quotes' | 'authors' | 'explorer' | 'add' | 'add-signals';
 
 @Component({
   selector: 'app-root',
-  imports: [QuotesListComponent, AuthorsListComponent, QuotesExplorerComponent, CreateQuoteFormComponent],
+  imports: [
+    QuotesListComponent,
+    AuthorsListComponent,
+    QuotesExplorerComponent,
+    CreateQuoteFormComponent,
+    CreateQuoteFormSignalsComponent
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

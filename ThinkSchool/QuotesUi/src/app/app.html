@@ -34,6 +34,14 @@
     >
       Add Quote
     </button>
+    <button
+      type="button"
+      class="tabs__btn"
+      [class.tabs__btn--active]="activeTab() === 'add-signals'"
+      (click)="selectTab('add-signals')"
+    >
+      Add Quote (Signals)
+    </button>
   </nav>
 
   @switch (activeTab()) {
@@ -45,6 +53,9 @@
     }
     @case ('add') {
       <app-create-quote-form />
+    }
+    @case ('add-signals') {
+      <app-create-quote-form-signals />
     }
     @default {
       <app-quotes-list />
